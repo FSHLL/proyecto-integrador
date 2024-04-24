@@ -1,5 +1,7 @@
 import { Canvas } from "@react-three/fiber"
-import { Experience } from "./components/Experience";
+import { Suspense } from "react"
+import { Physics } from "@react-three/rapier";
+import { Outlet } from "react-router-dom";
 
 export const App = () => {
 
@@ -7,7 +9,11 @@ export const App = () => {
     <>
       <Canvas shadows camera={{ position: [3, 3, 3], fov: 30 }}>
         <color attach="background" args={["#ececec"]} />
-      <Experience />
+        <Suspense>
+          <Physics debug>
+            <Outlet />
+          </Physics>
+        </Suspense>
     </Canvas>
     </>
   )
