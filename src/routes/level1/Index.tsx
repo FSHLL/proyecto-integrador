@@ -1,15 +1,14 @@
-import React from 'react';
 import { Cylinder } from "@react-three/drei";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import { KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
-import { Priest } from '../../models/Priest';
-
+import { Priest } from '@/models/Priest';
+import { getModelPath } from '@/helpers/path';
 
 export const Index = () => {
 
-    const characterURL = './models/priest/model.glb'
+    const characterURL = getModelPath('priest')
 
     return (
         <>

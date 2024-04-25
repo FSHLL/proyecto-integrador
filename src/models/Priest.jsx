@@ -5,13 +5,13 @@ Command: npx gltfjsx@6.2.16 public/models/priest/model.glb
 
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
+import { getModelPath } from '../helpers/path'
 
 export function Priest({withAnimations = false, ...props}) {
   const group = useRef()
-  const { nodes, materials, animations } = useGLTF('./models/priest/model.glb')
+  const { nodes, materials, animations } = useGLTF(getModelPath('priest'))
   const { actions } = useAnimations(animations, group)
 
-  console.log(actions);
   useEffect(() => {
     if (withAnimations) {
       actions['Idle'].reset().fadeIn(0.5).play();
@@ -31,4 +31,4 @@ export function Priest({withAnimations = false, ...props}) {
   )
 }
 
-useGLTF.preload('./models/priest/model.glb')
+useGLTF.preload(getModelPath('priest'))

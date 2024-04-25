@@ -1,4 +1,3 @@
-import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +6,7 @@ export const Login = () => {
     const navigate = useNavigate();
 
     const onFinish = (values) => {
-        navigate('app')
+        navigate('game')
         console.log('Received values of form: ', values);
     };
 

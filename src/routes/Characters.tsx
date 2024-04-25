@@ -1,10 +1,9 @@
-import React from 'react';
 import { Card, Flex } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { buziraco, priest, warrior } from '../constants/characters';
-import { Buziraco } from '../models/Buziraco';
+import { Buziraco } from '@/models/Buziraco';
 import { CharacterPresenter } from '../components/CharacterPresenter';
-import { Priest } from '../models/Priest';
+import { Priest } from '@/models/Priest';
 
 export const Characters = () => (
     <Flex gap="middle" wrap="wrap">

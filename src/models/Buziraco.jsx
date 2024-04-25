@@ -5,10 +5,11 @@ Command: npx gltfjsx@6.2.16 public/models/buziraco/model.glb
 
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
+import { getModelPath } from '../helpers/path'
 
 export function Buziraco({withAnimations = false, ...props}) {
   const group = useRef()
-  const { nodes, materials, animations } = useGLTF('./models/buziraco/model.glb')
+  const { nodes, materials, animations } = useGLTF(getModelPath('buziraco'))
   const { actions } = useAnimations(animations, group)
 
   useEffect(() => {
@@ -37,4 +38,4 @@ export function Buziraco({withAnimations = false, ...props}) {
   )
 }
 
-useGLTF.preload('./models/buziraco/model.glb')
+useGLTF.preload(getModelPath('buziraco'))
