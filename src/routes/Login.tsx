@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 export const Login = () => {
     const navigate = useNavigate();
 
-    const onFinish = (values) => {
+    const onFinish = () => {
         navigate('game')
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ');
     };
 
     return (

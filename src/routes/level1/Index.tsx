@@ -1,5 +1,6 @@
 import { Cylinder } from "@react-three/drei";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
+// @ts-expect-error
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import { KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';

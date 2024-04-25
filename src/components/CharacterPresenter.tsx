@@ -1,8 +1,12 @@
-import React from "react";
 import { Canvas } from "@react-three/fiber";
+import { ReactNode } from 'react';
 import { Environment, OrbitControls } from "@react-three/drei";
 
-export const CharacterPresenter = ({ children }) => {
+interface CharacterPresenterProps {
+    children: ReactNode;
+}
+
+export const CharacterPresenter = ({ children }: CharacterPresenterProps) => {
     return (
         <>
             <Canvas camera={{ position: [5, 5, 5], fov: 30}}>
