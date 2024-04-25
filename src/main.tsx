@@ -8,15 +8,27 @@ import {
 import './styles/index.css'
 import { Login } from './routes/Login.tsx';
 import { Index as Level1 } from './routes/level1/Index.tsx';
+import Game from './routes/Game.tsx';
+import { Characters } from './routes/Characters.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />
+    element: <App />,
+    children: [
+      {
+        path: "",
+        element: <Login />,
+      },
+      {
+        path: "characters",
+        element: <Characters />,
+      },
+    ]
   },
   {
-    path: "/app",
-    element: <App />,
+    path: "/game",
+    element: <Game />,
     children: [
       {
         path: "",

@@ -1,20 +1,22 @@
-import { Canvas } from "@react-three/fiber"
-import { Suspense } from "react"
-import { Physics } from "@react-three/rapier";
+import { Layout } from 'antd';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { Outlet } from "react-router-dom";
 
 export const App = () => {
 
   return (
     <>
-      <Canvas shadows camera={{ position: [3, 3, 3], fov: 30 }}>
-        <color attach="background" args={["#ececec"]} />
-        <Suspense>
-          <Physics debug>
-            <Outlet />
-          </Physics>
-        </Suspense>
-    </Canvas>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header>
+          Header
+        </Header>
+        <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Outlet />
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Made with ❤ by CodeCraft Team
+        </Footer>
+      </Layout>
     </>
   )
 }
