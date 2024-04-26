@@ -7,10 +7,10 @@ export const Game = () => {
 
   return (
     <>
-      <Canvas shadows camera={{ position: [3, 3, 3], fov: 30 }}>
+      <Canvas shadows camera={{ fov: 30 }}>
         <color attach="background" args={["#ececec"]} />
         <Suspense>
-          <Physics debug>
+          <Physics>
             <Outlet />
           </Physics>
         </Suspense>
