@@ -1,6 +1,6 @@
 import { RigidBody } from "@react-three/rapier";
 // @ts-expect-error No Types for Ecctrl
-import Ecctrl, { EcctrlAnimation } from "ecctrl";
+import Ecctrl, { EcctrlAnimation, useGame } from "ecctrl";
 import { KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
 import { Priest } from '@/models/Priest';
@@ -9,6 +9,7 @@ import { Trunk } from "@/components/Trunk";
 import { Vector3 } from "three";
 import { useEffect, useState } from "react";
 import { getRandomArbitrary } from "@/helpers/random";
+import { playAudio, stopAudio } from "@/helpers/audio";
 
 export const Index = () => {
 
@@ -27,6 +28,17 @@ export const Index = () => {
 
     //     return () => clearTimeout(timer);
     // });
+
+    // @ts-expect-error State types unavailable
+    const curAnimation: string = useGame((state) => state.curAnimation)
+
+    useEffect(() => {
+        if (['Walk', 'Run'].includes(curAnimation)) {
+            playAudio(curAnimation.toLowerCase())
+        }else{
+            stopAudio()
+        }
+    }, [curAnimation]);
 
     return (
         <>
