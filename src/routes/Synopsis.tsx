@@ -9,7 +9,7 @@ export const Synopsis = () => {
         <>
             {/* <Flex gap="middle" wrap="wrap"> */}
             <Typography style={{ padding: 100 }}>
-                <Title>Sinpsis</Title>
+                <Title>Sinopsis</Title>
 
                 <Paragraph>
                     En la Cali de 1937, un sacerdote de apellido <Text strong>Collazos</Text> preocupado por la presencia de demonios en la ciudad,
