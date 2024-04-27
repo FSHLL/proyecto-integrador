@@ -1,11 +1,17 @@
-import { Text3D } from '@react-three/drei';
+import { Cross } from '@/models/Corss';
+import { Cloud, Clouds, Environment, Sphere, Stars, Text3D } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import * as THREE from "three";
 
 const Menu = () => {
     const [isAnimating, setIsAnimating] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [scaleZ, setScaleZ] = useState(50);
+
+    const navigate = useNavigate()
 
     useFrame(() => {
         if (isAnimating) {
@@ -19,31 +25,66 @@ const Menu = () => {
 
     return (
         <>
+            <Environment preset='city'/>
+            <Stars radius={150} depth={50} count={5000} factor={15} saturation={0} fade speed={1} />
+            {/* <ambientLight color={"#ddd"} intensity={100} /> */}
+
+            {!isAnimating && (
+                <Clouds material={THREE.MeshBasicMaterial}>
+                    <Cloud position={[-0.5, 3, -6]} volume={0.5}/>
+                </Clouds>
+            )}
+
+            <Cross
+                receiveShadow
+                scale={[4, 4, 4]}
+                position={[0, -2.4, -30]}
+                rotation-y={1.25 * Math.PI}
+            />
+
+            <Cross
+                receiveShadow
+                scale={[3, 3, 3]}
+                position={[-4, -2.9, -20]}
+                rotation-y={1.4 * Math.PI}
+            />
+
+            <Cross
+                receiveShadow
+                scale={[3, 3, 3]}
+                position={[4, -2.9, -20]}
+                rotation-y={Math.PI}
+            />
+
+            <Sphere scale={[3,3,3]} position={[0, -3.7, -5]}>
+                <meshStandardMaterial color="#4daf19" />
+            </Sphere>
+
             <Text3D position={[-2, 1, -5]} font={'./fonts/Caveat_Regular.json'} scale={[1, 1, scaleZ]}>
                 Buziraco
-                <meshBasicMaterial color={'#241f1f'} />
+                {/* <meshBasicMaterial color={'#241f1f'} /> */}
+                <meshBasicMaterial color={'white'} />
             </Text3D>
 
-            <Text3D
-                position={[-1, -0.5, -5]}
-                font={'./fonts/Caveat_Regular.json'}
-                scale={[0.5, 0.5, scaleZ]}
+            <group
                 onPointerOver={() => setIsHovered(true)}
                 onPointerOut={() => setIsHovered(false)}
-                receiveShadow
+                onClick={() => navigate('level1')}
             >
-                Iniciar
-                <meshBasicMaterial color={'#241f1f'} />
-            </Text3D>
+                <Text3D
+                    position={[-1, -0.5, -5]}
+                    font={'./fonts/Caveat_Regular.json'}
+                    scale={[0.5, 0.5, scaleZ]}
+                    receiveShadow
+                >
+                    Iniciar
+                    <meshBasicMaterial color={'white'} />
+                    {/* <meshBasicMaterial color={'#241f1f'} /> */}
+                </Text3D>
+            </group>
 
             {isHovered && (
-            // <Text3D position={[-2, -2, -5]} font={'./fonts/Caveat_Regular.json'} scale={[1, 1, scaleZ]}>
-            //     Buziraco
-            //     <meshBasicMaterial color={'#241f1f'} />
-            // </Text3D>
-                <mesh>
-                    <pointLight position={[-2, -2, -5]} intensity={1.5} />
-                </mesh>
+                <pointLight position={[0, 0, 0]} intensity={100} color="#fff" />
             )}
         </>
     );

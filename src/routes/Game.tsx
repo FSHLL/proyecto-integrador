@@ -8,7 +8,6 @@ export const Game = () => {
   return (
     <>
       <Canvas shadows camera={{ fov: 30 }}>
-        <color attach="background" args={["#ececec"]} />
         <Suspense>
           <Physics>
             <Outlet />

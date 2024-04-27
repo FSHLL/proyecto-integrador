@@ -39,7 +39,8 @@ export const Index = () => {
 
     return (
         <>
-            {/* <OrbitControls /> */}
+            <color attach="background" args={["#ececec"]} />
+
             {/* LIGHTS */}
             <ambientLight intensity={1} />
             <directionalLight
