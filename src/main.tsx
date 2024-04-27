@@ -12,6 +12,7 @@ import Game from './routes/Game.tsx';
 import { Characters } from '@/routes/Characters.tsx';
 import Menu from '@/routes/Menu.tsx';
 import { Synopsis } from './routes/Synopsis.tsx';
+import { Members } from './routes/Members.tsx';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "synopsis",
         element: <Synopsis />,
+      },
+      {
+        path: "members",
+        element: <Members />,
       },
     ]
   },

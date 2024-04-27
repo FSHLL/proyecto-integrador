@@ -17,6 +17,10 @@ export const App = () => {
     {
       key: '2',
       label: <Link to={'characters'}>Personajes</Link>
+    },
+    {
+      key: '3',
+      label: <Link to={'members'}>Integrantes</Link>
     }
   ]
 
