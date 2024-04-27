@@ -3,7 +3,7 @@ import { RigidBody } from "@react-three/rapier";
 import Ecctrl, { EcctrlAnimation, useGame } from "ecctrl";
 import { KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
-import { Priest } from '@/models/Priest';
+// import { Priest } from '@/models/Priest';
 import { getModelPath } from '@/helpers/path';
 import { useEffect, useState } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
@@ -23,7 +23,7 @@ export const Index = () => {
         const timer = setTimeout(() => {
             setTrunksToShow((prevTrunks) => {
                 const randomX = getRandomArbitrary(-100, 100);
-                const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 0, 20)} />;
+                const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
                 return [...prevTrunks, newTrunk];
             });
         }, 1000);
