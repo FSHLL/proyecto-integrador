@@ -5,10 +5,7 @@ import { KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
 import { Priest } from '@/models/Priest';
 import { getModelPath } from '@/helpers/path';
-import { Trunk } from "@/components/Trunk";
-import { Vector3 } from "three";
-import { useEffect, useState } from "react";
-import { getRandomArbitrary } from "@/helpers/random";
+import { useEffect } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
 
 export const Index = () => {
