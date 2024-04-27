@@ -4,13 +4,14 @@ import { buziraco, priest, warrior } from '../constants/characters';
 import { Buziraco } from '@/models/Buziraco';
 import { CharacterPresenter } from '../components/CharacterPresenter';
 import { Priest } from '@/models/Priest';
+import { Warrior } from '@/models/Warrior';
 
 export const Characters = () => (
     <Flex gap="middle" wrap="wrap">
         <Card
             cover={
                 <CharacterPresenter>
-                    <Priest position-y={-1} withAnimations/>
+                    <Priest withAnimations/>
                 </CharacterPresenter>
             }
         >
@@ -22,10 +23,9 @@ export const Characters = () => (
 
         <Card
             cover={
-            <img
-                alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
+                <CharacterPresenter>
+                    <Warrior withAnimations/>
+                </CharacterPresenter>
             }
         >
             <Meta
@@ -37,7 +37,7 @@ export const Characters = () => (
         <Card
             cover={
                 <CharacterPresenter>
-                    <Buziraco position-y={-1.8} withAnimations/>
+                    <Buziraco withAnimations/>
                 </CharacterPresenter>
             }
         >
