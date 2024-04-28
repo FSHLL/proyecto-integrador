@@ -1,6 +1,6 @@
 import { Card, Flex } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import { buziraco, priest, warrior } from '../constants/characters';
+import { buziraco, candileja, demon, priest, warrior } from '../constants/characters';
 import { Buziraco } from '@/models/Buziraco';
 import { CharacterPresenter } from '../components/CharacterPresenter';
 // import { Priest } from '@/models/Priest';
@@ -45,6 +45,32 @@ export const Characters = () => (
             <Meta
             title={buziraco.name}
             description={buziraco.description}
+            />
+        </Card>
+
+        <Card
+            cover={
+                <CharacterPresenter>
+                    <Buziraco withAnimations/>
+                </CharacterPresenter>
+            }
+        >
+            <Meta
+            title={demon.name}
+            description={demon.description}
+            />
+        </Card>
+
+        <Card
+            cover={
+                <CharacterPresenter>
+                    <Buziraco withAnimations/>
+                </CharacterPresenter>
+            }
+        >
+            <Meta
+            title={candileja.name}
+            description={candileja.description}
             />
         </Card>
     </Flex>
