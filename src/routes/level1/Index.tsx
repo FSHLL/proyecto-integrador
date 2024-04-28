@@ -12,6 +12,7 @@ import { Warrior } from "@/models/Warrior";
 import { getRandomArbitrary } from "@/helpers/random";
 import { Trunk } from "@/components/Trunk";
 import { Vector3 } from "three";
+// import { Map3 } from "@/models/Map3";
 
 export const Index = () => {
 
@@ -22,7 +23,7 @@ export const Index = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setTrunksToShow((prevTrunks) => {
-                const randomX = getRandomArbitrary(-100, 100);
+                const randomX = getRandomArbitrary(-50, 40);
                 const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
                 return [...prevTrunks, newTrunk];
             });
@@ -52,7 +53,6 @@ export const Index = () => {
                 position={[5, 5, 5]}
                 intensity={0.5}
                 castShadow
-                color={"#9e69da"}
             />
 
             <KeyboardControls map={keyboardMap}>
@@ -68,7 +68,15 @@ export const Index = () => {
             </KeyboardControls>
 
             <RigidBody type="fixed" colliders="trimesh" ccd>
-                <Map1 position={[0, -11, 0]}/>
+                <Map1 position={[0, -10, 98]}/>
+                <mesh
+                    rotation={[-0.5 * Math.PI, 0, 0]}
+                    position={[0, -1, 0]}
+                    receiveShadow
+                >
+                    <planeGeometry args={[10, 10, 1, 1]}/>
+                    <shadowMaterial transparent opacity={0.2} />
+                </mesh>
             </RigidBody>
 
             {/* <RigidBody type="fixed" position={[0, -10, 0]}>
