@@ -1,4 +1,4 @@
-import { Cross } from '@/models/Corss';
+import { Cross } from '@/models/Cross';
 import { Cloud, Clouds, Environment, Sphere, Stars, Text3D } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';

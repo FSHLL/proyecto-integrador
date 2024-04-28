@@ -12,7 +12,15 @@ export const App = () => {
   const menuItems: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to={'characters'}>Character</Link>
+      label: <Link to={'synopsis'}>Sinopsis</Link>
+    },
+    {
+      key: '2',
+      label: <Link to={'characters'}>Personajes</Link>
+    },
+    {
+      key: '3',
+      label: <Link to={'members'}>Integrantes</Link>
     }
   ]
 

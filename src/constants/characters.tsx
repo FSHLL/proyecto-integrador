@@ -1,10 +1,10 @@
 export const priest = {
-    name: 'Priest',
+    name: 'Sacerdote',
     description: 'Priest Description'
 }
 
 export const warrior = {
-    name: 'Warrior',
+    name: 'Guerrero',
     description: 'Warrior Description'
 }
 
