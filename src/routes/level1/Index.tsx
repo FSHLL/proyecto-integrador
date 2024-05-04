@@ -9,31 +9,50 @@ import { useEffect, useState } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
 import { Map1 } from "@/models/Map1";
 import { Warrior } from "@/models/Warrior";
-import { getRandomArbitrary } from "@/helpers/random";
-import { Trunk } from "@/components/Trunk";
+// import { getRandomArbitrary } from "@/helpers/random";
+// import { Trunk } from "@/components/Trunk";
 import { Vector3 } from "three";
+import Checkpoint from "@/components/Checkpoint";
+import { useCheckpoint } from "@/stores/useCheckpoint";
 // import { Map3 } from "@/models/Map3";
 
 export const Index = () => {
 
     const characterURL = getModelPath('warrior')
 
+    const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
+
     const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setTrunksToShow((prevTrunks) => {
-                const randomX = getRandomArbitrary(-50, 40);
-                const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
-                return [...prevTrunks, newTrunk];
-            });
-        }, 1000);
+    const [velocity, setVelocity]  = useState<number>(2.5)
 
-        return () => clearTimeout(timer);
-    });
+    const [ecctrlMode, setEcctrlMode]  = useState<string|null>(null)
 
     // @ts-expect-error State types unavailable
-    const curAnimation: string = useGame((state) => state.curAnimation)
+    const curAnimation = useGame((state) =>
+        state.curAnimation,
+        // setMoveToPoint: state.setMoveToPoint
+    )
+
+    // @ts-expect-error State types unavailable
+    const setMoveToPoint = useGame((state) => state.setMoveToPoint);
+
+    const inCheckpoint = () => {
+        setEcctrlMode(null)
+        setVelocity(2.5)
+    }
+
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         setTrunksToShow((prevTrunks) => {
+    //             const randomX = getRandomArbitrary(-50, 40);
+    //             const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
+    //             return [...prevTrunks, newTrunk];
+    //         });
+    //     }, 1000);
+
+    //     return () => clearTimeout(timer);
+    // });
 
     useEffect(() => {
         if (['Walk', 'Run'].includes(curAnimation)) {
@@ -42,6 +61,14 @@ export const Index = () => {
             stopAudio()
         }
     }, [curAnimation]);
+
+    useEffect(() => {
+        if (curCheckpoint.position) {
+            setEcctrlMode('PointToMove')
+            setVelocity(14)
+            setMoveToPoint(new Vector3(curCheckpoint.position.x, -0.7, curCheckpoint.position.z))
+        }
+    }, []);
 
     return (
         <>
@@ -56,12 +83,14 @@ export const Index = () => {
             />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl camInitDis={-10} animated>
+                <Ecctrl mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}
                     >
-                        <Warrior position-y={-0.7}/>
+                        <Warrior
+                            position-y={-0.7}
+                        />
                         {/* <Priest position-y={-0.7} /> */}
                     </EcctrlAnimation>
                 </Ecctrl>
@@ -71,22 +100,19 @@ export const Index = () => {
                 <Map1 position={[0, -10, 98]}/>
                 <mesh
                     rotation={[-0.5 * Math.PI, 0, 0]}
-                    position={[0, -1, 0]}
+                    position={[0, 0, 0]}
                     receiveShadow
                 >
-                    <planeGeometry args={[10, 10, 1, 1]}/>
+                    <planeGeometry args={[0, 0, 1, 1]}/>
                     <shadowMaterial transparent opacity={0.2} />
                 </mesh>
             </RigidBody>
 
-            {/* <RigidBody type="fixed" position={[0, -10, 0]}>
-                <mesh receiveShadow>
-                    <boxGeometry args={[100, 0.5, 100]} />
-                    <meshStandardMaterial color="white" />
-                </mesh>
-            </RigidBody> */}
+            <Checkpoint id={1} level={1} position={new Vector3(0, -4.4, 10)} onCollision={inCheckpoint} />
+            <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
+            <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
 
-            {trunksToShow}
+            {/* {trunksToShow} */}
         </>
     );
 };
