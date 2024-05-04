@@ -1,5 +1,6 @@
+import { SelectCheckpoint } from '@/components/SelectCheckpoint';
 import { Cross } from '@/models/Cross';
-import { Cloud, Clouds, Environment, Sphere, Stars, Text3D } from '@react-three/drei';
+import { Cloud, Clouds, Environment, Html, Sphere, Stars, Text3D } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,20 @@ const Menu = () => {
     const [isAnimating, setIsAnimating] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [scaleZ, setScaleZ] = useState(50);
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
+
+    const onSelected = () => {
+        onClose()
+        navigate('level1')
+    };
 
     const navigate = useNavigate()
 
@@ -72,7 +87,7 @@ const Menu = () => {
                 onClick={() => navigate('level1')}
             >
                 <Text3D
-                    position={[-1, -0.5, -5]}
+                    position={[-1, -0.2, -5]}
                     font={'./fonts/Caveat_Regular.json'}
                     scale={[0.5, 0.5, scaleZ]}
                     receiveShadow
@@ -83,9 +98,29 @@ const Menu = () => {
                 </Text3D>
             </group>
 
+            <group
+                onPointerOver={() => setIsHovered(true)}
+                onPointerOut={() => setIsHovered(false)}
+                onClick={showDrawer}
+            >
+                <Text3D
+                    position={[-1.4, -0.8, -4]}
+                    font={'./fonts/Caveat_Regular.json'}
+                    scale={[0.5, 0.5, scaleZ]}
+                    receiveShadow
+                >
+                    Continuar
+                    <meshBasicMaterial color={'white'} />
+                    {/* <meshBasicMaterial color={'#241f1f'} /> */}
+                </Text3D>
+            </group>
+
             {isHovered && (
                 <pointLight position={[0, 0, 0]} intensity={100} color="#fff" />
             )}
+            <Html>
+                <SelectCheckpoint open={open} onClose={onClose} onSelected={onSelected} />
+            </Html>
         </>
     );
 };
