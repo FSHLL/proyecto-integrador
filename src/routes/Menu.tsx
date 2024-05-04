@@ -72,12 +72,29 @@ const Menu = () => {
                 onClick={() => navigate('level1')}
             >
                 <Text3D
-                    position={[-1, -0.5, -5]}
+                    position={[-1, -0.2, -5]}
                     font={'./fonts/Caveat_Regular.json'}
                     scale={[0.5, 0.5, scaleZ]}
                     receiveShadow
                 >
                     Iniciar
+                    <meshBasicMaterial color={'white'} />
+                    {/* <meshBasicMaterial color={'#241f1f'} /> */}
+                </Text3D>
+            </group>
+
+            <group
+                onPointerOver={() => setIsHovered(true)}
+                onPointerOut={() => setIsHovered(false)}
+                onClick={() => navigate('level1')}
+            >
+                <Text3D
+                    position={[-1.4, -0.8, -4]}
+                    font={'./fonts/Caveat_Regular.json'}
+                    scale={[0.5, 0.5, scaleZ]}
+                    receiveShadow
+                >
+                    Continuar
                     <meshBasicMaterial color={'white'} />
                     {/* <meshBasicMaterial color={'#241f1f'} /> */}
                 </Text3D>
