@@ -1,5 +1,6 @@
+import { SelectCheckpoint } from '@/components/SelectCheckpoint';
 import { Cross } from '@/models/Cross';
-import { Cloud, Clouds, Environment, Sphere, Stars, Text3D } from '@react-three/drei';
+import { Cloud, Clouds, Environment, Html, Sphere, Stars, Text3D } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,20 @@ const Menu = () => {
     const [isAnimating, setIsAnimating] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [scaleZ, setScaleZ] = useState(50);
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
+
+    const onSelected = () => {
+        onClose()
+        navigate('level1')
+    };
 
     const navigate = useNavigate()
 
@@ -86,7 +101,7 @@ const Menu = () => {
             <group
                 onPointerOver={() => setIsHovered(true)}
                 onPointerOut={() => setIsHovered(false)}
-                onClick={() => navigate('level1')}
+                onClick={showDrawer}
             >
                 <Text3D
                     position={[-1.4, -0.8, -4]}
@@ -103,6 +118,9 @@ const Menu = () => {
             {isHovered && (
                 <pointLight position={[0, 0, 0]} intensity={100} color="#fff" />
             )}
+            <Html>
+                <SelectCheckpoint open={open} onClose={onClose} onSelected={onSelected} />
+            </Html>
         </>
     );
 };

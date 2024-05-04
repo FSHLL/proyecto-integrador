@@ -1,14 +1,6 @@
-import { Vector3 } from 'three';
+import { Checkpoint } from '@/Interfaces/Checkpoint';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
-
-interface Checkpoint {
-    id:number
-    level: number;
-    score: number;
-    position: Vector3;
-    timestamp: number;
-}
 
 interface CheckpointStore {
     curCheckpoint: Checkpoint;
