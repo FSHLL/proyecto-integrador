@@ -1,4 +1,5 @@
 import { Checkpoint } from '@/Interfaces/Checkpoint';
+import { createCheckpoint } from '@/db/UserCheckpoints';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
@@ -14,7 +15,10 @@ export const useCheckpoint = create(
         (set, get) => ({
             curCheckpoint: {} as Checkpoint,
             checkpoints: [],
-            addCheckpoint: (checkpoint) => set({ checkpoints: [...get().checkpoints, checkpoint] }),
+            addCheckpoint: (checkpoint) => {
+                set({ checkpoints: [...get().checkpoints, checkpoint] })
+                createCheckpoint(checkpoint)
+            },
             setCurCheckpoint: (checkpoint) => set({ curCheckpoint: checkpoint }),
         }),
         {

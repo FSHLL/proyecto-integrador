@@ -17,6 +17,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
     const handleAddCheckpoint = () => {
         const newCheckpoint = {
             id: id,
+            userEmail: 'mail.com',
             level: level,
             score: 100,
             position: position,

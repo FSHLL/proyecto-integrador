@@ -1,6 +1,8 @@
 import { Checkpoint } from "@/Interfaces/Checkpoint";
+import { readCheckpoints } from "@/db/UserCheckpoints";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { Drawer, Table } from "antd";
+import { useEffect, useState } from "react";
 import { Vector3 } from "three";
 
 interface SelectCheckpointProps {
@@ -10,7 +12,9 @@ interface SelectCheckpointProps {
 }
 
 export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectCheckpointProps) => {
-    const { checkpoints, setCurCheckpoint } = useCheckpoint();
+    const { setCurCheckpoint } = useCheckpoint();
+
+    const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([])
 
     const columns = [
         {
@@ -41,6 +45,16 @@ export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectChe
             render: (timestamp: string) => (new Date(timestamp)).toLocaleDateString(),
         },
     ];
+
+    const fetchCheckpoints = async () => {
+        const dbCheckpoints = await readCheckpoints('mail.com')
+        console.log(dbCheckpoints);
+        setCheckpoints(dbCheckpoints)
+    }
+
+    useEffect(() => {
+        fetchCheckpoints()
+    }, [])
 
     const handleSelectCheckpoint = (checkpoint: Checkpoint) => {
         setCurCheckpoint(checkpoint);
