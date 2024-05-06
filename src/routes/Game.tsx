@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber"
 import { Suspense } from "react"
 import { Physics } from "@react-three/rapier";
 import { Outlet } from "react-router-dom";
+import { Health } from "@/components/Health";
 
 export const Game = () => {
 
@@ -13,7 +14,10 @@ export const Game = () => {
             <Outlet />
           </Physics>
         </Suspense>
-    </Canvas>
+      </Canvas>
+      <div className="button-container">
+        <Health />
+      </div>
     </>
   )
 }

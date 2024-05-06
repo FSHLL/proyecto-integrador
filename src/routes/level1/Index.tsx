@@ -15,6 +15,7 @@ import { Vector3 } from "three";
 import Checkpoint from "@/components/Checkpoint";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { player } from "@/constants/colliders";
 
 export const Index = () => {
 
@@ -85,7 +86,7 @@ export const Index = () => {
             />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
+                <Ecctrl name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}

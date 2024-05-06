@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { CylinderCollider, RigidBody } from '@react-three/rapier';
+import { CollisionEnterPayload, CylinderCollider, RigidBody } from '@react-three/rapier';
 import { Cylinder } from '@react-three/drei';
 import { useCheckpoint } from '@/stores/useCheckpoint';
 
@@ -7,14 +7,14 @@ interface CheckpointProps {
     id: number;
     level: number;
     position: Vector3;
-    onCollision: () => void;
+    onCollision: (coll: CollisionEnterPayload) => void;
 }
 
 const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
 
     const { checkpoints, addCheckpoint } = useCheckpoint();
 
-    const handleAddCheckpoint = () => {
+    const handleAddCheckpoint = (coll: CollisionEnterPayload) => {
         const newCheckpoint = {
             id: id,
             userEmail: 'mail.com',
@@ -27,7 +27,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
         if (!checkpoint) {
             addCheckpoint(newCheckpoint);
         }
-        onCollision()
+        onCollision(coll)
     };
 
     return (
@@ -36,7 +36,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
                 position={position}
                 colliders={false}
                 type="fixed"
-                onCollisionEnter={() => handleAddCheckpoint()}
+                onCollisionEnter={(coll) => handleAddCheckpoint(coll)}
             >
                 <CylinderCollider args={[0.25 / 2, 1]} />
                 <Cylinder scale={[1, 0.25, 1]}>
