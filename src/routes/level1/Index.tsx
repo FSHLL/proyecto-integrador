@@ -1,11 +1,11 @@
-import { RigidBody } from "@react-three/rapier";
+import { RapierRigidBody, RigidBody, vec3 } from "@react-three/rapier";
 // @ts-expect-error No Types for Ecctrl
 import Ecctrl, { EcctrlAnimation, useGame } from "ecctrl";
 import { Html, KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
 // import { Priest } from '@/models/Priest';
 import { getModelPath } from '@/helpers/path';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
 import { Map1 } from "@/models/Map1";
 import { Warrior } from "@/models/Warrior";
@@ -16,20 +16,32 @@ import Checkpoint from "@/components/Checkpoint";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { player } from "@/constants/colliders";
+import { Bullet } from "@/components/Bullet";
+import { Bullet as TypeBullet } from "@/Interfaces/Bullet";
+import { Demon } from "@/models/Demon";
+import * as THREE from 'three'
 
 export const Index = () => {
 
     const characterURL = getModelPath('warrior')
 
+    const characterRef = useRef<RapierRigidBody>()
+
+    const demonRef = useRef<THREE.Group>()
+
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
     const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
+
+    const [attack, setAttack] = useState<JSX.Element[]>([]);
 
     const [velocity, setVelocity]  = useState<number>(2.5)
 
     const [ecctrlMode, setEcctrlMode]  = useState<string|null>(null)
 
     const [loading, setLoading] = useState(false);
+
+    const [bullets, setBullets] = useState<TypeBullet[]>([]);
 
     // @ts-expect-error State types unavailable
     const curAnimation = useGame((state) => state.curAnimation)
@@ -43,13 +55,44 @@ export const Index = () => {
         setLoading(false);
     }
 
+    const handleAttack = () => {
+        setTimeout(() => {
+            launchBullet();
+        }, 500);
+    };
+
+    const launchBullet = () => {
+        const modelPosition = demonRef.current?.position.clone();
+        const modelRotation = demonRef.current?.rotation.clone();
+
+        const bulletPosition = modelPosition.clone();
+        const bulletAngle = modelRotation.y;
+
+        const bullet = {
+            id: + "-" + +new Date(),
+            position: vec3(bulletPosition),
+            angle: bulletAngle,
+            // player: state.id,
+        }
+        setBullets((bullets: TypeBullet[]) => [...bullets, bullet]);
+    };
+
     useEffect(() => {
         const timer = setTimeout(() => {
-            setTrunksToShow((prevTrunks) => {
-                const randomX = getRandomArbitrary(-50, 40);
-                const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
-                return [...prevTrunks, newTrunk];
-            });
+            // setTrunksToShow((prevTrunks) => {
+            //     const randomX = getRandomArbitrary(-50, 40);
+            //     const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
+            //     return [...prevTrunks, newTrunk];
+            // });
+            // const bullet = {
+            //     id: + "-" + +new Date(),
+            //     position: vec3(characterRef.current?.translation()),
+            //     angle: 0,
+            //     // player: state.id,
+            // }
+            // setBullets((bullets: TypeBullet[]) => [...bullets, bullet]);
+            // console.log(characterRef.current?.translation());
+            handleAttack()
         }, 1000);
 
         return () => clearTimeout(timer);
@@ -86,7 +129,7 @@ export const Index = () => {
             />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
+                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}
@@ -114,6 +157,17 @@ export const Index = () => {
             <Checkpoint id={1} level={1} position={new Vector3(0, -4.4, 10)} onCollision={inCheckpoint} />
             <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
             <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
+
+            <Demon position={[0,-5,0]} ref={demonRef} />
+
+            {(bullets).map((bullet: TypeBullet, index: number) => (
+                <Bullet
+                    key={index}
+                    angle={bullet.angle}
+                    position={bullet.position}
+                    onHit={() => {}}
+                />
+            ))}
 
             <Html>
                 <LoadingScreen loading={loading} setLoading={setLoading} />
