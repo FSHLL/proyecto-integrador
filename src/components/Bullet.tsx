@@ -1,12 +1,13 @@
 import { player } from "@/constants/colliders";
-import { IntersectionEnterPayload, RapierRigidBody, RigidBody, vec3 } from "@react-three/rapier";
+import { IntersectionEnterPayload, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import { MeshBasicMaterial, Vector3 } from "three";
 
 interface BulletProps {
+    id: string
     angle: number;
     position: Vector3;
-    onHit: () => void;
+    onHit: (bulletId: string) => void;
 }
 
 const BULLET_SPEED = 20;
@@ -24,7 +25,7 @@ const bulletMaterial = new MeshBasicMaterial({
 
 bulletMaterial.color.multiplyScalar(42);
 
-export const Bullet = ({ angle, position, onHit }: BulletProps) => {
+export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
     const rigidBody = useRef<RapierRigidBody>(null);
 
     useEffect(() => {
@@ -49,7 +50,11 @@ export const Bullet = ({ angle, position, onHit }: BulletProps) => {
                 <RigidBody
                     ref={rigidBody}
                     gravityScale={0}
-                    onIntersectionEnter={(e: IntersectionEnterPayload) => {console.log(e.other.rigidBodyObject?.name);
+                    onIntersectionEnter={(e: IntersectionEnterPayload) => {
+                        // console.log(e.other.rigidBodyObject?.name);
+                        if (e.other.rigidBodyObject?.name === player) {
+                            onHit(id)
+                        }
                     }}
                     sensor
                 >

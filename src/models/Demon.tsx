@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.16 public/models/demon/model.glb -t
 */
 
 import * as THREE from 'three'
-import React, { forwardRef, useRef } from 'react'
+import { forwardRef, useEffect } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
@@ -25,10 +25,19 @@ interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
 }
 
-export const Demon = forwardRef<THREE.Group>((props, ref) => {
+export const Demon = forwardRef<THREE.Group>(({ attack = false, ...props }: { attack?: boolean }, ref) => {
   // const group = useRef<THREE.Group>(null)
-  const { nodes, materials } = useGLTF(getModelPath('demon')) as GLTFResult
-  // const { actions } = useAnimations(animations, ref)
+  const { nodes, materials, animations } = useGLTF(getModelPath('demon')) as GLTFResult
+  // @ts-expect-error No error work
+  const { actions } = useAnimations(animations, ref)
+
+  useEffect(() => {
+    if (attack) {
+      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeIn(0.5).play();
+    } else {
+      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeOut(0.5).stop();
+    }
+  });
 
   return (
     <group ref={ref} {...props} dispose={null}>
