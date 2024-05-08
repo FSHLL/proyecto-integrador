@@ -32,6 +32,6 @@ export const readCheckpoints = async (userEmail: string): Promise<Checkpoint[]> 
         return checkpoints.docs.map((doc) => doc.data()) as Checkpoint[];
     } catch (error) {
         console.log(error);
-        return []
+        return [];
     }
 };

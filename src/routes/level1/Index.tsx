@@ -1,7 +1,7 @@
-import { RapierRigidBody, RigidBody, vec3 } from "@react-three/rapier";
+import { CylinderCollider, RapierRigidBody, RigidBody, vec3 } from "@react-three/rapier";
 // @ts-expect-error No Types for Ecctrl
 import Ecctrl, { EcctrlAnimation, useGame } from "ecctrl";
-import { Html, KeyboardControls } from "@react-three/drei";
+import { Cylinder, Html, KeyboardControls } from "@react-three/drei";
 import { animationSet, keyboardMap } from '../../constants/joystick';
 // import { Priest } from '@/models/Priest';
 import { getModelPath } from '@/helpers/path';
@@ -49,8 +49,8 @@ export const Index = () => {
     const setMoveToPoint = useGame((state) => state.setMoveToPoint);
 
     const inCheckpoint = () => {
-        setEcctrlMode(null);
-        setVelocity(2.5);
+        setEcctrlMode(null)
+        setVelocity(2.5)
         setLoading(false);
     };
 
@@ -142,23 +142,35 @@ export const Index = () => {
                         animationSet={animationSet}
                     >
                         <Warrior
-                            position-y={-0.7} />
+                            position-y={-0.9}
+                        />
                         {/* <Priest position-y={-0.7} /> */}
                     </EcctrlAnimation>
                 </Ecctrl>
             </KeyboardControls>
 
-            <RigidBody type="fixed" colliders="trimesh" ccd>
-                <Map1 position={[0, -10, 98]} />
-                <mesh
-                    rotation={[-0.5 * Math.PI, 0, 0]}
-                    position={[0, 0, 0]}
-                    receiveShadow
-                >
-                    <planeGeometry args={[0, 0, 1, 1]} />
-                    <shadowMaterial transparent opacity={0.2} />
-                </mesh>
-            </RigidBody>
+            {!loading &&
+                <RigidBody type="fixed" colliders={"trimesh"} ccd>
+                    <Map1 position={[0, -10, 98]}/>
+                    <mesh
+                        rotation={[-0.5 * Math.PI, 0, 0]}
+                        position={[0, 0, 0]}
+                        receiveShadow
+                    >
+                        <planeGeometry args={[0, 0, 1, 1]}/>
+                        <shadowMaterial transparent opacity={0.2} />
+                    </mesh>
+                </RigidBody>
+            }
+
+            {loading &&
+                <RigidBody colliders={false} type="fixed" position={[0, -4.9, 98]}>
+                    <CylinderCollider args={[0.5, 1000]} />
+                    <Cylinder scale={[1000, 1, 1000]} receiveShadow>
+                        {/* <meshStandardMaterial color={"transparent"} /> */}
+                    </Cylinder>
+                </RigidBody>
+            }
 
             <Checkpoint id={1} level={1} position={new Vector3(0, -4.4, 10)} onCollision={inCheckpoint} />
             <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
