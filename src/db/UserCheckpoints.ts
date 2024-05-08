@@ -29,8 +29,9 @@ export const readCheckpoints = async (userEmail: string) => {
     try {
         const checkpoints = await getDocs(query(checkPointsRef, where('userEmail', '==', userEmail)));
 
-        return checkpoints.docs.map((doc) => doc.data());
+        return checkpoints.docs.map((doc) => doc.data()) as Checkpoint[];
     } catch (error) {
-        return error;
+        console.log(error);
+        return [];
     }
 };
