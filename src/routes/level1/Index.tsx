@@ -19,7 +19,8 @@ import { player } from "@/constants/colliders";
 import { Bullet } from "@/components/Bullet";
 import { Bullet as TypeBullet } from "@/Interfaces/Bullet";
 import { Demon } from "@/models/Demon";
-import * as THREE from 'three';
+// import * as THREE from 'three';
+import { CharacterController } from "@/components/CharacterController";
 
 export const Index = () => {
 
@@ -27,7 +28,7 @@ export const Index = () => {
 
     const characterRef = useRef<RapierRigidBody>();
 
-    const demonRef = useRef<THREE.Group>();
+    const demonRef = useRef<RapierRigidBody>();
 
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
@@ -61,11 +62,11 @@ export const Index = () => {
     };
 
     const launchBullet = () => {
-        const modelPosition = demonRef.current?.position.clone();
-        const modelRotation = demonRef.current?.rotation.clone();
+        const modelPosition = demonRef.current?.translation();
+        const modelRotation = demonRef.current?.rotation();
 
         if (modelPosition && modelRotation) {
-            const bulletPosition = modelPosition.clone();
+            const bulletPosition = modelPosition;
             const bulletAngle = modelRotation.y;
 
             const bullet = {
@@ -177,7 +178,10 @@ export const Index = () => {
             <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
 
             {/* @ts-expect-error Good reference */}
-            <Demon attack={attack} position={[0, -5, 0]} ref={demonRef} />
+            <CharacterController ref={demonRef} characterRef={characterRef}>
+                {/* @ts-expect-error Good reference */}
+                <Demon attack={attack}/>
+            </CharacterController>
 
             {(bullets).map((bullet: TypeBullet, index: number) => (
                 <Bullet
