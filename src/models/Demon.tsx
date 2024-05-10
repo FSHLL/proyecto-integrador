@@ -4,10 +4,12 @@ Command: npx gltfjsx@6.2.16 public/models/demon/model.glb -t
 */
 
 import * as THREE from 'three'
-import { forwardRef, useEffect } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { MutableRefObject, useEffect, useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
+import { RapierRigidBody } from '@react-three/rapier'
+import { distance2Points } from '@/helpers/distance'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -25,22 +27,31 @@ interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
 }
 
-export const Demon = forwardRef<THREE.Group>(({ attack = false, ...props }: { attack?: boolean }, ref) => {
-  // const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(getModelPath('demon')) as GLTFResult
-  // @ts-expect-error No error work
-  const { actions } = useAnimations(animations, ref)
+type DemonProps = JSX.IntrinsicElements['group'] & {
+  rigidBodyRef?: MutableRefObject<RapierRigidBody | undefined>
+  characterRef?: MutableRefObject<RapierRigidBody | undefined>
+  attack?: () => void
+}
+
+export function Demon(props: DemonProps) {
+  const group = useRef<THREE.Group>(null)
+  const { nodes, materials } = useGLTF(getModelPath('demon')) as GLTFResult
+  // const { actions } = useAnimations(animations, group)
 
   useEffect(() => {
-    if (attack) {
-      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeIn(0.5).play();
-    } else {
-      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeOut(0.5).stop();
+    if (props.rigidBodyRef?.current && props.characterRef?.current) {
+      const distance = distance2Points(
+        props.rigidBodyRef.current.translation(),
+        props.characterRef.current.translation()
+      )
+      if (distance <= 30 && props.attack) {
+        props.attack()
+      }
     }
-  });
+  })
 
   return (
-    <group ref={ref} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null}>
       <group name="Root_Scene">
         <group name="RootNode">
           <group name="EnemyArmature" rotation={[-Math.PI / 2, 0, 0]} scale={100}>
@@ -51,6 +62,6 @@ export const Demon = forwardRef<THREE.Group>(({ attack = false, ...props }: { at
       </group>
     </group>
   )
-})
+}
 
 useGLTF.preload(getModelPath('demon'))

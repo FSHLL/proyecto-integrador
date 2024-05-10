@@ -3,17 +3,18 @@ import { MutableRefObject, ReactNode, RefObject, forwardRef, useEffect, useRef }
 import * as THREE from 'three'
 
 // const JUMP_FORCE = 0.5;
-const MOVEMENT_SPEED = 0.5;
-const MAX_VEL = 3;
+// const MOVEMENT_SPEED = 0.5;
+// const MAX_VEL = 3;
 
 interface CharacterControllerProps {
     characterRef: MutableRefObject<RapierRigidBody | undefined>;
     // position: THREE.Vector3;
     children: ReactNode;
+    moveSpeed: number;
 }
 
 // export const CharacterController = ({characterRef, children}: CharacterControllerProps) => {
-export const CharacterController = forwardRef<RapierRigidBody, CharacterControllerProps>(({ characterRef, children }: CharacterControllerProps, ref) => {
+export const CharacterController = forwardRef<RapierRigidBody, CharacterControllerProps>(({ characterRef, children, moveSpeed = 0 }: CharacterControllerProps, ref) => {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const rigidBody = ref as RefObject<RapierRigidBody> || useRef<RapierRigidBody>()
@@ -21,42 +22,39 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
     const isOnFloor = useRef(true);
     const character = useRef<THREE.Group>(null);
 
+    // [moveSpeed, setMoveSpeed] = useState<number>(0.5)
+
     useEffect(() => {
-        const impulse = { x: 0, y: 0, z: 0 };
-        // if (jumpPressed && isOnFloor.current) {
-        //     impulse.y += JUMP_FORCE;
-        //     isOnFloor.current = false;
-        // }
-
-        console.log(characterRef.current?.translation());
-
         const linvel = rigidBody.current?.linvel();
         const characterPosition = characterRef.current?.translation()
+        const rigidPosition = rigidBody.current?.translation()
 
-        if (linvel && characterPosition) {
-            let changeRotation = false;
-            if (characterPosition.x > 20 && linvel.x < MAX_VEL) {
-                impulse.x += MOVEMENT_SPEED;
-                changeRotation = true;
+        if (linvel && characterPosition && rigidPosition) {
+            if (moveSpeed > 0) {
+                const direction = new THREE.Vector3(
+                    characterPosition.x - rigidPosition.x,
+                    0,
+                    characterPosition.z - rigidPosition.z
+                ).normalize();
+
+                rigidBody.current?.applyImpulse(direction, true);
             }
-            // if (leftPressed && linvel.x > -MAX_VEL) {
-            //     impulse.x -= MOVEMENT_SPEED;
-            //     changeRotation = true;
-            // }
-            // if (backPressed && linvel.z < MAX_VEL) {
-            //     impulse.z += MOVEMENT_SPEED;
-            //     changeRotation = true;
-            // }
-            // if (forwardPressed && linvel.z > -MAX_VEL) {
-            //     impulse.z -= MOVEMENT_SPEED;
-            //     changeRotation = true;
-            // }
 
-            rigidBody.current?.applyImpulse(impulse, true);
-            if (changeRotation) {
-                const angle = Math.atan2(linvel.x, linvel.z);
-                if (character.current) {
-                    character.current.rotation.y = angle;
+
+            if (character.current) {
+                character.current.lookAt(
+                    characterPosition.x,
+                    character.current.position.y,
+                    characterPosition.z
+                );
+
+                if (moveSpeed === 0) {
+                    rigidBody.current?.setRotation({
+                        x: 0,
+                        y: character.current.rotation.y+20,
+                        z: 0,
+                        w: 0,
+                    }, true);
                 }
             }
         }

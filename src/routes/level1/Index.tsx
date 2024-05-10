@@ -33,7 +33,7 @@ export const Index = () => {
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
     // const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
-    const [attack, setAttack] = useState<boolean>(false);
+    // const [attack, setAttack] = useState<boolean>(false);
 
     const [velocity, setVelocity] = useState<number>(2.5);
 
@@ -63,7 +63,7 @@ export const Index = () => {
 
     const launchBullet = () => {
         const modelPosition = demonRef.current?.translation();
-        const modelRotation = demonRef.current?.rotation();
+        const modelRotation = characterRef.current?.translation()
 
         if (modelPosition && modelRotation) {
             const bulletPosition = modelPosition;
@@ -75,14 +75,13 @@ export const Index = () => {
                 angle: bulletAngle,
                 // player: state.id,
             };
-            setAttack(true);
+            // setAttack(true);
             setBullets((bullets) => [...bullets, bullet]);
         }
     };
 
     const onHit = (bulletId: string) => {
-        console.log('IN', bulletId);
-        setAttack(false);
+        // setAttack(false);
         setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
     };
 
@@ -177,11 +176,13 @@ export const Index = () => {
             <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
             <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
 
-            {/* @ts-expect-error Good reference */}
-            <CharacterController ref={demonRef} characterRef={characterRef}>
+            <group position={[0,0,50]}>
                 {/* @ts-expect-error Good reference */}
-                <Demon attack={attack}/>
-            </CharacterController>
+                <CharacterController ref={demonRef} characterRef={characterRef}>
+                    <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
+                </CharacterController>
+            </group>
+
 
             {(bullets).map((bullet: TypeBullet, index: number) => (
                 <Bullet
