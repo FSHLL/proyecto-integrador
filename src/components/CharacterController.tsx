@@ -14,7 +14,7 @@ interface CharacterControllerProps {
 }
 
 // export const CharacterController = ({characterRef, children}: CharacterControllerProps) => {
-export const CharacterController = forwardRef<RapierRigidBody, CharacterControllerProps>(({ characterRef, children, moveSpeed = 0 }: CharacterControllerProps, ref) => {
+export const CharacterController = forwardRef<RapierRigidBody, CharacterControllerProps>(({ characterRef, children, moveSpeed = 2 }: CharacterControllerProps, ref) => {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const rigidBody = ref as RefObject<RapierRigidBody> || useRef<RapierRigidBody>()

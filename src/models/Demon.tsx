@@ -4,8 +4,8 @@ Command: npx gltfjsx@6.2.16 public/models/demon/model.glb -t
 */
 
 import * as THREE from 'three'
-import { MutableRefObject, useEffect, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
 import { RapierRigidBody } from '@react-three/rapier'
@@ -35,8 +35,20 @@ type DemonProps = JSX.IntrinsicElements['group'] & {
 
 export function Demon(props: DemonProps) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials } = useGLTF(getModelPath('demon')) as GLTFResult
-  // const { actions } = useAnimations(animations, group)
+  const { nodes, materials, animations } = useGLTF(getModelPath('demon')) as GLTFResult
+  const { actions } = useAnimations(animations, group)
+
+  const [attack, setAttack] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (attack) {
+      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeIn(0.2).play();
+    } else {
+      return () => {
+        actions['EnemyArmature|EnemyArmature|EnemyArmature|Idle']?.fadeOut(0.2);
+      };
+    }
+  }, [attack, actions]);
 
   useEffect(() => {
     if (props.rigidBodyRef?.current && props.characterRef?.current) {
@@ -44,11 +56,16 @@ export function Demon(props: DemonProps) {
         props.rigidBodyRef.current.translation(),
         props.characterRef.current.translation()
       )
-      if (distance <= 30 && props.attack) {
-        props.attack()
+      if (distance <= 30) {
+        setAttack(true)
+        if(props.attack) {
+          props.attack()
+        }
+      }else {
+        setAttack(false)
       }
     }
-  })
+  }, [props])
 
   return (
     <group ref={group} {...props} dispose={null}>
