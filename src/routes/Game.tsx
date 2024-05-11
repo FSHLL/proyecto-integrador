@@ -12,6 +12,7 @@ export const Game = () => {
   onAuthStateChanged(auth, (userFirebase) => {
     if(userFirebase) {
       setUser(userFirebase);
+      console.log(user.email, "g");
     } else {
       setUser(null);
     }
@@ -19,6 +20,9 @@ export const Game = () => {
 
   return (
     <>
+      <div style={{position: 'absolute', marginLeft: '10px', color: 'white', zIndex: '999'}}>
+        {user? <p>{user.email}</p>:<p>Sin iniciar sesión</p>}
+      </div>
       <Canvas shadows camera={{ fov: 30 }}>
         <Suspense>
           <Physics>
