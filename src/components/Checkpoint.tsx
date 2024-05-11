@@ -1,7 +1,8 @@
 import { Vector3 } from 'three';
-import { CylinderCollider, RigidBody } from '@react-three/rapier';
+import { RigidBody } from '@react-three/rapier';
 import { Cylinder } from '@react-three/drei';
 import { useCheckpoint } from '@/stores/useCheckpoint';
+import { player } from '@/constants/colliders';
 
 interface CheckpointProps {
     id: number;
@@ -17,6 +18,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
     const handleAddCheckpoint = () => {
         const newCheckpoint = {
             id: id,
+            userEmail: 'mail.com',
             level: level,
             score: 100,
             position: position,
@@ -33,11 +35,15 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
         <>
             <RigidBody
                 position={position}
-                colliders={false}
+                colliders={'ball'}
                 type="fixed"
-                onCollisionEnter={() => handleAddCheckpoint()}
+                onCollisionEnter={(col) => {
+                    if (col.other.rigidBodyObject?.name === player) {
+                        handleAddCheckpoint()
+                    }
+                }}
             >
-                <CylinderCollider args={[0.25 / 2, 1]} />
+                {/* <CylinderCollider args={[0.25 / 2, 1]} /> */}
                 <Cylinder scale={[1, 0.25, 1]}>
                     <meshStandardMaterial color="white" />
                 </Cylinder>
