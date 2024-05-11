@@ -4,7 +4,10 @@ export const keyboardMap = [
     { name: 'leftward', keys: ['ArrowLeft', 'KeyA'] },
     { name: 'rightward', keys: ['ArrowRight', 'KeyD'] },
     { name: 'jump', keys: ['Space'] },
-    { name: 'run', keys: ['Shift'] }
+    { name: 'run', keys: ['Shift'] },
+    { name: 'run', keys: ['Shift'] },
+    { name: 'action1', keys: ['KeyF'] },
+    { name: 'action2', keys: ['KeyE'] }
 ]
 
 export const animationSet = {
@@ -15,8 +18,8 @@ export const animationSet = {
     jumpIdle: "Jump_Idle",
     jumpLand: "Jump_Land",
     fall: "Climbing",
-    action1: "Wave",
-    action2: "Dance",
+    action1: "Punch",
+    action2: "Block",
     action3: "Cheer",
     action4: "Attack(1h)",
 };

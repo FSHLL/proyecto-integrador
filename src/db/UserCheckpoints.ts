@@ -25,7 +25,7 @@ export const createCheckpoint = async (checkpoint: Checkpoint) => {
     }
 };
 
-export const readCheckpoints = async (userEmail: string) => {
+export const readCheckpoints = async (userEmail: string): Promise<Checkpoint[]> => {
     try {
         const checkpoints = await getDocs(query(checkPointsRef, where('userEmail', '==', userEmail)));
 

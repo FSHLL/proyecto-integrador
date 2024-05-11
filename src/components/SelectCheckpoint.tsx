@@ -48,7 +48,6 @@ export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectChe
 
     const fetchCheckpoints = async () => {
         const dbCheckpoints = await readCheckpoints('mail.com')
-        console.log(dbCheckpoints);
         setCheckpoints(dbCheckpoints)
     }
 

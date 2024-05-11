@@ -2,11 +2,12 @@ import { Canvas } from "@react-three/fiber"
 import { Suspense, useState } from "react"
 import { Physics } from "@react-three/rapier";
 import { Outlet } from "react-router-dom";
-import appFirebase from './firebaseConfig';
+import { Health } from "@/components/Health";
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import app from "@/firebase";
 
 export const Game = () => {
-  const auth = getAuth(appFirebase);
+  const auth = getAuth(app);
   const [user, setUser] = useState<User>();
 
   onAuthStateChanged(auth, (userFirebase) => {
@@ -30,6 +31,9 @@ export const Game = () => {
           </Physics>
         </Suspense>
       </Canvas>
+      <div className="button-container">
+        <Health />
+      </div>
     </>
   )
 }

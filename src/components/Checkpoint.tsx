@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { RigidBody } from '@react-three/rapier';
+import { CollisionEnterPayload, RigidBody } from '@react-three/rapier';
 import { Cylinder } from '@react-three/drei';
 import { useCheckpoint } from '@/stores/useCheckpoint';
 import { player } from '@/constants/colliders';
@@ -8,14 +8,14 @@ interface CheckpointProps {
     id: number;
     level: number;
     position: Vector3;
-    onCollision: () => void;
+    onCollision: (coll: CollisionEnterPayload) => void;
 }
 
 const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
 
     const { checkpoints, addCheckpoint } = useCheckpoint();
 
-    const handleAddCheckpoint = () => {
+    const handleAddCheckpoint = (coll: CollisionEnterPayload) => {
         const newCheckpoint = {
             id: id,
             userEmail: 'mail.com',
@@ -28,7 +28,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
         if (!checkpoint) {
             addCheckpoint(newCheckpoint);
         }
-        onCollision()
+        onCollision(coll)
     };
 
     return (
@@ -37,9 +37,9 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
                 position={position}
                 colliders={'ball'}
                 type="fixed"
-                onCollisionEnter={(col) => {
-                    if (col.other.rigidBodyObject?.name === player) {
-                        handleAddCheckpoint()
+                onCollisionEnter={(coll) => {
+                    if (coll.other.rigidBodyObject?.name === player) {
+                        handleAddCheckpoint(coll)
                     }
                 }}
             >
