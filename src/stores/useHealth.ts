@@ -26,11 +26,6 @@ export const useHealth = create(
                 set({ curHealth: get().curHealth - damage })
                 if (get().curHealth <= 0) {
                     set({lives: get().lives - 1})
-                    if (get().lives > 0) {
-                        set({curHealth: 100})
-                    } else {
-                        set({gameState: gameStates.GAME_OVER})
-                    }
                 }
             },
             doHealth: (health) => set({ curHealth: get().curHealth + health }),

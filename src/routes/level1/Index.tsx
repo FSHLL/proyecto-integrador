@@ -11,7 +11,7 @@ import { Map1 } from "@/models/Map1";
 import { Warrior } from "@/models/Warrior";
 // import { getRandomArbitrary } from "@/helpers/random";
 // import { Trunk } from "@/components/Trunk";
-import { Euler, Vector3 } from "three";
+import { Vector3 } from "three";
 import Checkpoint from "@/components/Checkpoint";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { LoadingScreen } from "@/components/LoadingScreen";
@@ -21,7 +21,6 @@ import { Bullet as TypeBullet } from "@/Interfaces/Bullet";
 import { Demon } from "@/models/Demon";
 // import * as THREE from 'three';
 import { CharacterController } from "@/components/CharacterController";
-import { useCharacter } from "@/stores/useCharacter";
 
 export const Index = () => {
 
@@ -30,7 +29,6 @@ export const Index = () => {
     const characterRef = useRef<RapierRigidBody>();
 
     const demonRef = useRef<RapierRigidBody>();
-    const [demonRotation, setDemonRotation] = useState<Euler>();
 
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
@@ -59,18 +57,17 @@ export const Index = () => {
 
     const handleAttack = () => {
         setTimeout(() => {
-            // launchBullet();
+            launchBullet();
         }, 500);
     };
 
     const launchBullet = () => {
         const modelPosition = demonRef.current?.translation();
+        const modelRotation = characterRef.current?.translation()
 
-        if (modelPosition && demonRotation) {
+        if (modelPosition && modelRotation) {
             const bulletPosition = modelPosition;
-            const bulletAngle = demonRotation.y
-
-            console.log(bulletAngle);
+            const bulletAngle = modelRotation.y;
 
             const bullet = {
                 id: (new Date()).toTimeString(),
@@ -87,13 +84,6 @@ export const Index = () => {
         // setAttack(false);
         setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
     };
-
-    const setCharacterRef = useCharacter((state) => state.setCharacterRef);
-
-    useEffect(() => {
-        setCharacterRef(characterRef.current);
-        return () => setCharacterRef(null);
-    }, [setCharacterRef]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -117,7 +107,7 @@ export const Index = () => {
     });
 
     useEffect(() => {
-        if ([animationSet.walk, animationSet.run].includes(curAnimation) && !loading) {
+        if (['Walk', 'Run'].includes(curAnimation) && !loading) {
             playAudio(curAnimation.toLowerCase());
         } else {
             stopAudio();
@@ -188,8 +178,8 @@ export const Index = () => {
 
             <group position={[0,0,50]}>
                 {/* @ts-expect-error Good reference */}
-                <CharacterController moveSpeed={0} onRotationChange={(r) => setDemonRotation(r)} ref={demonRef}>
-                    <Demon />
+                <CharacterController ref={demonRef} characterRef={characterRef}>
+                    <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
                 </CharacterController>
             </group>
 
