@@ -23,7 +23,6 @@ import { Demon } from "@/models/Demon";
 import { CharacterController } from "@/components/CharacterController";
 import { direction2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
-import { Cross } from "@/models/Cross";
 import { Demon2 } from "@/models/Demon2";
 
 export const Index = () => {
@@ -32,7 +31,8 @@ export const Index = () => {
 
     const characterRef = useRef<RapierRigidBody>();
 
-    const demonRef = useRef<RapierRigidBody>();
+    const demon1Ref = useRef<RapierRigidBody>();
+    const demon2Ref = useRef<RapierRigidBody>();
 
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
@@ -65,7 +65,7 @@ export const Index = () => {
     };
 
     const launchBullet = (position?: Vector) => {
-        const demonPosition = demonRef.current?.translation();
+        const demonPosition = demon1Ref.current?.translation();
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
@@ -183,13 +183,13 @@ export const Index = () => {
             <Checkpoint id={4} level={1} position={new Vector3(-100, -4.4, 40)} onCollision={inCheckpoint} />
 
             {/* @ts-expect-error Good reference */}
-            <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demonRef} characterRef={characterRef}>
-                <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
+            <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref} characterRef={characterRef}>
+                <Demon rigidBodyRef={demon1Ref} characterRef={characterRef} />
             </CharacterController>
 
             {/* @ts-expect-error Good reference */}
-            <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
-                <Demon2 rigidBodyRef={demonRef} characterRef={characterRef} />
+            <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
+                <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
             </CharacterController>
 
             {(bullets).map((bullet: TypeBullet, index: number) => (
