@@ -11,8 +11,7 @@ import { Vector } from "@dimforge/rapier3d-compat";
 
 // const JUMP_FORCE = 0.5;
 // const MOVEMENT_SPEED = 0.5;
-// const MAX_VEL = 3;
-
+const MAX_VEL = 3;
 
 type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     characterRef: MutableRefObject<RapierRigidBody | undefined>;
@@ -20,6 +19,7 @@ type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     children: ReactNode;
     moveSpeed: 0;
     attack: (position: Vector) => void
+    delay: 1000
   }
 
 // export const CharacterController = ({characterRef, children}: CharacterControllerProps) => {
@@ -43,7 +43,7 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
         const lifeBar = lifeBarRef.current;
 
         if (curAnimation === animationSet.action1) {
-            setLife(life-40)
+            setLife(life-30)
             if (lifeBar && life > 0) {
                 const sacaleX = life / 100;
                 lifeBar.scale.set(sacaleX, 1, 1);
@@ -71,24 +71,22 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
                 playerPosition
             )
 
-            if (distance <= 30) {
+            if (distance <= 30 && distance > 4 && life > 0 && props.moveSpeed === 0) {
                 if(props.attack) {
                   props.attack(characterPosition)
                 }
             }
 
             if (curAnimation === animationSet.action1 && distance <= 3)
-                {
-                    setLife(life-30)
-                    if (lifeBar && life > 0) {
-                        const sacaleX = life / 100;
-                        lifeBar.scale.set(sacaleX, 1, 1);
-                    }
-                } else {
-                    doDamage(10)
+            {
+                setLife(life-30)
+                if (lifeBar && life > 0) {
+                    const sacaleX = life / 100;
+                    lifeBar.scale.set(sacaleX, 1, 1);
                 }
+            }
         }
-    }, [curAnimation, doDamage, life, props, props.characterRef, rigidBody])
+    }, [curAnimation, life, props, props.characterRef, rigidBody])
 
     useEffect(() => {
         const linvel = rigidBody.current?.linvel();
@@ -97,8 +95,15 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
 
         if (linvel && characterPosition && rigidPosition) {
             const direction = direction2Points(characterPosition, rigidPosition)
+            const distance = distance2Points(characterPosition, rigidPosition)
 
-            if (props.moveSpeed > 0) {
+            if (distance <= 30 && distance > 4 && life > 0 && props.moveSpeed === 0) {
+                if(props.attack) {
+                  props.attack(characterPosition)
+                }
+            }
+            
+            if (distance <= 40 && distance && props.moveSpeed > 0 && linvel.x < MAX_VEL) {
                 rigidBody.current?.applyImpulse(direction, true);
             }
 
