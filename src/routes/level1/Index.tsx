@@ -71,7 +71,7 @@ export const Index = () => {
     };
 
     const launchBullet = (position?: Vector) => {
-        const demonPosition = demon1Ref.current?.translation();
+        const demonPosition = demon2Ref.current?.translation();
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
