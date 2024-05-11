@@ -6,8 +6,8 @@ import appFirebase from './firebaseConfig';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 export const Game = () => {
-  const auth = getAuth(appFirebase)
-  const [user, setUser] = useState(null)
+  const auth = getAuth(appFirebase);
+  const [user, setUser] = useState(null);
 
   onAuthStateChanged(auth, (userFirebase) => {
     if(userFirebase) {
@@ -25,7 +25,7 @@ export const Game = () => {
             <Outlet />
           </Physics>
         </Suspense>
-    </Canvas>
+      </Canvas>
     </>
   )
 }

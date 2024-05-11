@@ -3,7 +3,8 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import appFirebase from './firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, 
+    signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -12,7 +13,6 @@ export const Login = () => {
     const [registered, setRegistered] = useState(false)
 
     const onFinish = async ({ username, password }) => {
-        console.log(username, " - ", password);
         if(registered) {
             try {
                 await createUserWithEmailAndPassword(auth, username, password);
@@ -23,13 +23,23 @@ export const Login = () => {
         } else {
             try {
                 await signInWithEmailAndPassword(auth, username, password);
-                console.log(username, " - ", password);
                 navigate('game')
             } catch (error) {
                 alert("El usuario y/o la contraseña son incorrectos");
             }
         }
         form.resetFields();
+    };
+
+    const onClick = async (e) => {
+        e.preventDefault();
+        const provider = new GoogleAuthProvider();
+        try {
+          await signInWithPopup(auth, provider)
+          navigate('game')
+        } catch (error) {
+          console.log(error);
+        }
     };
 
     return (
@@ -75,6 +85,9 @@ export const Login = () => {
                     <Button block type="primary" htmlType="submit" className="login-form-button">
                         {registered? "Sign up" : "Log in"}
                     </Button>
+                    {registered? <p></p> : <Button onClick={onClick} block type="button" className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
+                        Google
+                    </Button>}
                     <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}<Button onClick={() => setRegistered(!registered)} style={{backgroundColor: 'darkblue', color: 'white' }}>{registered? "Inicia sesión" : "Registrate"}</Button></p>
                 </Form.Item>
             </Form>
