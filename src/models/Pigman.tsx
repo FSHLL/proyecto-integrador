@@ -4,7 +4,6 @@ Command: npx gltfjsx@6.2.16 public/models/pigman/model.glb -t
 */
 
 import * as THREE from 'three'
-import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
@@ -30,10 +29,7 @@ type GLTFResult = GLTF & {
     PigMan_Armor: THREE.MeshStandardMaterial
     Pig_fur: THREE.MeshStandardMaterial
   }
-  animations: GLTFAction[]
 }
-
-type ContextType = Record<string, React.ForwardRefExoticComponent<JSX.IntrinsicElements['mesh']>>
 
 export function Pigman(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(getModelPath('pigman')) as GLTFResult

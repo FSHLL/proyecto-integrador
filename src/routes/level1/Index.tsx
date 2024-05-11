@@ -25,6 +25,8 @@ import { direction2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
 import { Demon2 } from "@/models/Demon2";
 import { Pigman } from "@/models/Pigman";
+import { gameStates, useHealth } from "@/stores/useHealth";
+import { GameOver } from "@/components/GameOver";
 
 export const Index = () => {
 
@@ -53,6 +55,8 @@ export const Index = () => {
 
     // @ts-expect-error State types unavailable
     const setMoveToPoint = useGame((state) => state.setMoveToPoint);
+
+    const gameState = useHealth((state) => state.gameState);
 
     const inCheckpoint = () => {
         setEcctrlMode(null)
@@ -184,33 +188,42 @@ export const Index = () => {
             <Checkpoint id={3} level={1} position={new Vector3(-60, -4.4, 100)} onCollision={inCheckpoint} />
             <Checkpoint id={4} level={1} position={new Vector3(-100, -4.4, 40)} onCollision={inCheckpoint} />
 
-            {/* @ts-expect-error Good reference */}
-            <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref} characterRef={characterRef}>
-                <Demon rigidBodyRef={demon1Ref} characterRef={characterRef} />
-            </CharacterController>
+            {!loading &&
+                <>
+                    {/* @ts-expect-error Good reference */}
+                    <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref} characterRef={characterRef}>
+                        <Demon rigidBodyRef={demon1Ref} characterRef={characterRef} />
+                    </CharacterController>
 
-            {/* @ts-expect-error Good reference */}
-            <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
-                <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
-            </CharacterController>
+                    {/* @ts-expect-error Good reference */}
+                    <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
+                        <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
+                    </CharacterController>
 
-            {/* @ts-expect-error Good reference */}
-            <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
-                <Pigman />
-            </CharacterController>
+                    {/* @ts-expect-error Good reference */}
+                    <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
+                        <Pigman />
+                    </CharacterController>
 
 
-            {(bullets).map((bullet: TypeBullet, index: number) => (
-                <Bullet
-                    key={index}
-                    id={bullet.id}
-                    angle={bullet.angle}
-                    position={bullet.position}
-                    onHit={onHit} />
-            ))}
+                    {(bullets).map((bullet: TypeBullet, index: number) => (
+                        <Bullet
+                            key={index}
+                            id={bullet.id}
+                            angle={bullet.angle}
+                            position={bullet.position}
+                            onHit={onHit} />
+                    ))
+                    }
+                </>
+            }
 
             <Html>
                 <LoadingScreen loading={loading} setLoading={setLoading} />
+                {
+                    gameState === gameStates.GAME_OVER &&
+                    <GameOver />
+                }
             </Html>
 
             {/* {trunksToShow} */}
