@@ -1,9 +1,10 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import appFirebase from './firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { User } from '@/Interfaces/User';
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -11,8 +12,7 @@ export const Login = () => {
     const [form] = Form.useForm(); 
     const [registered, setRegistered] = useState(false)
 
-    const onFinish = async ({ username, password }) => {
-        console.log(username, " - ", password);
+    const onFinish = async ({ username, password }: User) => {
         if(registered) {
             try {
                 await createUserWithEmailAndPassword(auth, username, password);
@@ -23,7 +23,6 @@ export const Login = () => {
         } else {
             try {
                 await signInWithEmailAndPassword(auth, username, password);
-                console.log(username, " - ", password);
                 navigate('game')
             } catch (error) {
                 alert("El usuario y/o la contraseña son incorrectos");
@@ -61,21 +60,18 @@ export const Login = () => {
                         placeholder="Password"
                     />
                 </Form.Item>
-                {/* <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        {registered? <p></p> : <Checkbox>Remember me</Checkbox>}
-                    </Form.Item>
-
-                    <a className="login-form-forgot" href="">
-                    {registered? "" : "Forgot password"}
-                    </a>
-                </Form.Item> */}
 
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" className="login-form-button">
                         {registered? "Sign up" : "Log in"}
                     </Button>
-                    <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}<Button onClick={() => setRegistered(!registered)} style={{backgroundColor: 'darkblue', color: 'white' }}>{registered? "Inicia sesión" : "Registrate"}</Button></p>
+                    <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}
+                        <Button 
+                            onClick={() => setRegistered(!registered)}
+                            style={{backgroundColor: 'darkblue', color: 'white' }}>
+                                {registered? "Inicia sesión" : "Registrate"}
+                        </Button>
+                    </p>
                 </Form.Item>
             </Form>
         </>
