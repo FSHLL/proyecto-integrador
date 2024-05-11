@@ -6,7 +6,8 @@ import * as THREE from 'three'
 import { useGame } from "ecctrl";
 import { animationSet } from "@/constants/joystick";
 import { player } from "@/constants/colliders";
-import { direction2Points } from "@/helpers/distance";
+import { direction2Points, distance2Points } from "@/helpers/distance";
+import { Vector } from "@dimforge/rapier3d-compat";
 
 // const JUMP_FORCE = 0.5;
 // const MOVEMENT_SPEED = 0.5;
@@ -18,6 +19,7 @@ type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     // position: THREE.Vector3;
     children: ReactNode;
     moveSpeed: 0;
+    attack: (position: Vector) => void
   }
 
 // export const CharacterController = ({characterRef, children}: CharacterControllerProps) => {
@@ -58,6 +60,37 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
     }
 
     useEffect(() => {
+        const lifeBar = lifeBarRef.current;
+
+        const playerPosition = props.characterRef.current?.translation()
+        const characterPosition = rigidBody.current?.translation()
+        
+        if (playerPosition && characterPosition) {
+            const distance = distance2Points(
+                characterPosition,
+                playerPosition
+            )
+
+            if (distance <= 30) {
+                if(props.attack) {
+                  props.attack(characterPosition)
+                }
+            }
+
+            if (curAnimation === animationSet.action1 && distance <= 3)
+                {
+                    setLife(life-30)
+                    if (lifeBar && life > 0) {
+                        const sacaleX = life / 100;
+                        lifeBar.scale.set(sacaleX, 1, 1);
+                    }
+                } else {
+                    doDamage(10)
+                }
+        }
+    }, [curAnimation, doDamage, life, props, props.characterRef, rigidBody])
+
+    useEffect(() => {
         const linvel = rigidBody.current?.linvel();
         const characterPosition = props.characterRef.current?.translation()
         const rigidPosition = rigidBody.current?.translation()
@@ -88,13 +121,17 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
                     isOnFloor.current = true;
                     handleCollision(coll)
                 }}
+                includeInvisible
             >
-                <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.2, 0]} />
-                <mesh position={[0, 3, 0]} ref={lifeBarRef}>
-                    <boxGeometry args={[2, 0.2, 0.2]} />
-                    <meshBasicMaterial color="red" />
-                </mesh>
-                <group ref={character}>
+                {
+                    life > 0 &&
+                    <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.2, 0]} />
+                }
+                <group visible={life > 0} ref={character}>
+                    <mesh position={[0, 3, 0]} ref={lifeBarRef}>
+                        <boxGeometry args={[2, 0.2, 0.2]} />
+                        <meshBasicMaterial color="red" />
+                    </mesh>
                     {props.children}
                 </group>
             </RigidBody>
