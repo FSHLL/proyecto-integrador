@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.16 .\public\models\demon2\model.glb -t
 */
 
 import * as THREE from 'three'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
