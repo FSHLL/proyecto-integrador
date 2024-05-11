@@ -18,7 +18,7 @@ export const animationSet = {
     jumpIdle: "Jump_Idle",
     jumpLand: "Jump_Land",
     fall: "Climbing",
-    action1: "Smash",
+    action1: "Punch",
     action2: "Block",
     action3: "Cheer",
     action4: "Attack(1h)",
