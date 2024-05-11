@@ -128,13 +128,14 @@ export const Index = () => {
 
     return (
         <>
-            <color attach="background" args={["#ececec"]} />
+            {/* <color attach="background" args={["#ececec"]} /> */}
+            <color attach="background" args={['#333333']} />
 
             {/* LIGHTS */}
-            <ambientLight intensity={1} />
+            <ambientLight intensity={0.4} />
             <directionalLight
                 position={[5, 5, 5]}
-                intensity={0.5}
+                intensity={0.3}
                 castShadow />
 
             <KeyboardControls map={keyboardMap}>
@@ -153,7 +154,7 @@ export const Index = () => {
 
             {!loading &&
                 <RigidBody type="fixed" colliders={"trimesh"} ccd>
-                    <Map1 position={[0, -10, 98]}/>
+                    <Map1 position={[-63, -10, 98]}/>
                     <mesh
                         rotation={[-0.5 * Math.PI, 0, 0]}
                         position={[0, 0, 0]}
@@ -174,9 +175,10 @@ export const Index = () => {
                 </RigidBody>
             }
 
-            <Checkpoint id={1} level={1} position={new Vector3(0, -4.4, 10)} onCollision={inCheckpoint} />
-            <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
-            <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
+            <Checkpoint id={1} level={1} position={new Vector3(-5, -4.4, 80)} onCollision={inCheckpoint} />
+            <Checkpoint id={2} level={1} position={new Vector3(-5, -4.4, 180)} onCollision={inCheckpoint} />
+            <Checkpoint id={3} level={1} position={new Vector3(-60, -4.4, 100)} onCollision={inCheckpoint} />
+            <Checkpoint id={4} level={1} position={new Vector3(-100, -4.4, 40)} onCollision={inCheckpoint} />
 
             <group >
                 {/* @ts-expect-error Good reference */}
