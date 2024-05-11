@@ -22,6 +22,7 @@ import { Demon } from "@/models/Demon";
 // import * as THREE from 'three';
 import { CharacterController } from "@/components/CharacterController";
 import { direction2Points } from "@/helpers/distance";
+import { Vector } from "@dimforge/rapier3d-compat";
 
 export const Index = () => {
 
@@ -34,7 +35,6 @@ export const Index = () => {
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
     // const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
-    // const [attack, setAttack] = useState<boolean>(false);
 
     const [velocity, setVelocity] = useState<number>(2.5);
 
@@ -56,18 +56,18 @@ export const Index = () => {
         setLoading(false);
     };
 
-    const handleAttack = () => {
+    const onAttack = (position?: Vector) => {
         setTimeout(() => {
-            launchBullet();
-        }, 500);
+            launchBullet(position);                
+        }, 1000);
     };
 
-    const launchBullet = () => {
+    const launchBullet = (position?: Vector) => {
         const demonPosition = demonRef.current?.translation();
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
-            const bulletPosition = demonPosition;
+            const bulletPosition = position;
 
             const direction = direction2Points(characterPosition, demonPosition)
 
@@ -79,13 +79,11 @@ export const Index = () => {
                 angle: bulletAngle,
                 // player: state.id,
             };
-            // setAttack(true);
             setBullets((bullets) => [...bullets, bullet]);
         }
     };
 
     const onHit = (bulletId: string) => {
-        // setAttack(false);
         setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
     };
 
@@ -104,7 +102,7 @@ export const Index = () => {
             // }
             // setBullets((bullets: TypeBullet[]) => [...bullets, bullet]);
             // console.log(characterRef.current?.translation());
-            handleAttack();
+            onAttack();
         }, 1000);
 
         return () => clearTimeout(timer);
@@ -182,7 +180,7 @@ export const Index = () => {
 
             <group >
                 {/* @ts-expect-error Good reference */}
-                <CharacterController position={[0,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
+                <CharacterController attack={onAttack} position={[0,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
                     <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
                 </CharacterController>
             </group>
