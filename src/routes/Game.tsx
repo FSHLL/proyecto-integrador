@@ -3,11 +3,11 @@ import { Suspense, useState } from "react"
 import { Physics } from "@react-three/rapier";
 import { Outlet } from "react-router-dom";
 import { Health } from "@/components/Health";
-import appFirebase from './firebaseConfig';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import app from "@/firebase";
 
 export const Game = () => {
-  const auth = getAuth(appFirebase);
+  const auth = getAuth(app);
   const [user, setUser] = useState<User>();
 
   onAuthStateChanged(auth, (userFirebase) => {

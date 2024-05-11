@@ -2,13 +2,14 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import appFirebase from './firebaseConfig';
+// import appFirebase from './firebaseConfig';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { User } from '@/Interfaces/User';
+import app from '@/firebase';
 
 export const Login = () => {
     const navigate = useNavigate();
-    const auth = getAuth(appFirebase)
+    const auth = getAuth(app)
     const [form] = Form.useForm();
     const [registered, setRegistered] = useState(false)
 
