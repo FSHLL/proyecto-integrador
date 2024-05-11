@@ -41,13 +41,11 @@ export function Demon(props: DemonProps) {
   const [attack, setAttack] = useState<boolean>(false)
 
   useEffect(() => {
-    if (attack) {
-      actions['EnemyArmature|EnemyArmature|EnemyArmature|Attack']?.reset().fadeIn(0.2).play();
-    } else {
-      return () => {
-        actions['EnemyArmature|EnemyArmature|EnemyArmature|Idle']?.fadeOut(0.2);
-      };
-    }
+    const animation = attack ? 'EnemyArmature|EnemyArmature|EnemyArmature|Attack' : 'EnemyArmature|EnemyArmature|EnemyArmature|Idle';
+    actions[animation]?.reset().fadeIn(0.2).play();
+    return () => {
+      actions[animation]?.fadeOut(0.2);
+    };
   }, [attack, actions]);
 
   useEffect(() => {

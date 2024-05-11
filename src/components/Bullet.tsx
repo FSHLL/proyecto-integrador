@@ -1,4 +1,5 @@
 import { player } from "@/constants/colliders";
+import { useHealth } from "@/stores/useHealth";
 import { IntersectionEnterPayload, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import { MeshBasicMaterial, Vector3 } from "three";
@@ -28,6 +29,8 @@ bulletMaterial.color.multiplyScalar(42);
 export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
     const rigidBody = useRef<RapierRigidBody>(null);
 
+    const doDamage = useHealth((state) => state.doDamage)
+
     useEffect(() => {
         // const audio = new Audio("/sounds/rifle.mp3");
         // audio.play();
@@ -54,6 +57,7 @@ export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
                         // console.log(e.other.rigidBodyObject?.name);
                         if (e.other.rigidBodyObject?.name === player) {
                             onHit(id)
+                            doDamage(5)
                         }
                     }}
                     sensor

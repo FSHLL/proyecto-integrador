@@ -21,6 +21,7 @@ import { Bullet as TypeBullet } from "@/Interfaces/Bullet";
 import { Demon } from "@/models/Demon";
 // import * as THREE from 'three';
 import { CharacterController } from "@/components/CharacterController";
+import { direction2Points } from "@/helpers/distance";
 
 export const Index = () => {
 
@@ -62,12 +63,15 @@ export const Index = () => {
     };
 
     const launchBullet = () => {
-        const modelPosition = demonRef.current?.translation();
-        const modelRotation = characterRef.current?.translation()
+        const demonPosition = demonRef.current?.translation();
+        const characterPosition = characterRef.current?.translation()
 
-        if (modelPosition && modelRotation) {
-            const bulletPosition = modelPosition;
-            const bulletAngle = modelRotation.y;
+        if (demonPosition && characterPosition) {
+            const bulletPosition = demonPosition;
+
+            const direction = direction2Points(characterPosition, demonPosition)
+
+            const bulletAngle = Math.atan2(direction.x, direction.z);
 
             const bullet = {
                 id: (new Date()).toTimeString(),
@@ -107,7 +111,7 @@ export const Index = () => {
     });
 
     useEffect(() => {
-        if (['Walk', 'Run'].includes(curAnimation) && !loading) {
+        if ([animationSet.walk, animationSet.run].includes(curAnimation) && !loading) {
             playAudio(curAnimation.toLowerCase());
         } else {
             stopAudio();
@@ -176,9 +180,9 @@ export const Index = () => {
             <Checkpoint id={2} level={1} position={new Vector3(0, -4.4, 40)} onCollision={inCheckpoint} />
             <Checkpoint id={3} level={1} position={new Vector3(-20, -4.4, 40)} onCollision={inCheckpoint} />
 
-            <group position={[0,0,50]}>
+            <group >
                 {/* @ts-expect-error Good reference */}
-                <CharacterController ref={demonRef} characterRef={characterRef}>
+                <CharacterController position={[0,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
                     <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
                 </CharacterController>
             </group>
