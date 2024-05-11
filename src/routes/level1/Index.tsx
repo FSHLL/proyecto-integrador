@@ -23,6 +23,8 @@ import { Demon } from "@/models/Demon";
 import { CharacterController } from "@/components/CharacterController";
 import { direction2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
+import { Cross } from "@/models/Cross";
+import { Demon2 } from "@/models/Demon2";
 
 export const Index = () => {
 
@@ -180,13 +182,15 @@ export const Index = () => {
             <Checkpoint id={3} level={1} position={new Vector3(-60, -4.4, 100)} onCollision={inCheckpoint} />
             <Checkpoint id={4} level={1} position={new Vector3(-100, -4.4, 40)} onCollision={inCheckpoint} />
 
-            <group >
-                {/* @ts-expect-error Good reference */}
-                <CharacterController attack={onAttack} position={[0,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
-                    <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
-                </CharacterController>
-            </group>
+            {/* @ts-expect-error Good reference */}
+            <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demonRef} characterRef={characterRef}>
+                <Demon rigidBodyRef={demonRef} characterRef={characterRef} />
+            </CharacterController>
 
+            {/* @ts-expect-error Good reference */}
+            <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demonRef} characterRef={characterRef}>
+                <Demon2 rigidBodyRef={demonRef} characterRef={characterRef} />
+            </CharacterController>
 
             {(bullets).map((bullet: TypeBullet, index: number) => (
                 <Bullet

@@ -14,14 +14,19 @@ interface HealthStore {
     doDamage: (damage: number) => void;
     doHealth: (health: number) => void;
     setGameState: (state: string) => void;
+    reset: () => void;
+}
+
+const initialData = {
+    gameState: gameStates.GAME,
+    lives: 3,
+    curHealth: 100,
 }
 
 export const useHealth = create(
     persist<HealthStore>(
         (set, get) => ({
-            gameState: gameStates.GAME,
-            lives: 3,
-            curHealth: 100,
+            ...initialData,
             doDamage: (damage) => {
                 set({ curHealth: get().curHealth - damage })
                 if (get().curHealth <= 0) {
@@ -35,6 +40,7 @@ export const useHealth = create(
             },
             doHealth: (health) => set({ curHealth: get().curHealth + health }),
             setGameState: (state) => set({ gameState: state }),
+            reset: () => set(initialData) 
         }),
         {
             name: 'health-storage',
