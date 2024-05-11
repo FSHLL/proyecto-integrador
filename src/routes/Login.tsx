@@ -1,18 +1,52 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+// import appFirebase from './firebaseConfig';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { User } from '@/Interfaces/User';
+import app from '@/firebase';
 
 export const Login = () => {
     const navigate = useNavigate();
+    const auth = getAuth(app)
+    const [form] = Form.useForm();
+    const [registered, setRegistered] = useState(false)
 
-    const onFinish = () => {
-        navigate('game')
-        console.log('Received values of form: ');
+    const onFinish = async ({ username, password }: User) => {
+        if(registered) {
+            try {
+                await createUserWithEmailAndPassword(auth, username, password);
+                alert("Usuario registrado correctamente");
+            } catch (error) {
+                alert("Error en el registro");
+            }
+        } else {
+            try {
+                await signInWithEmailAndPassword(auth, username, password);
+                navigate('game')
+            } catch (error) {
+                alert("El usuario y/o la contraseña son incorrectos");
+            }
+        }
+        form.resetFields();
+    };
+
+    const onClick = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider)
+            navigate('game')
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <>
             <Form
+                form={form}
                 name="normal_login"
                 className="login-form"
                 initialValues={{ remember: true }}
@@ -23,7 +57,10 @@ export const Login = () => {
                     name="username"
                     rules={[{ message: 'Please input your Username!' }]}
                 >
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    <Input
+                        prefix={<UserOutlined 
+                        className="site-form-item-icon" />} 
+                        placeholder="Username" />
                 </Form.Item>
                 <Form.Item
                     name="password"
@@ -35,20 +72,15 @@ export const Login = () => {
                         placeholder="Password"
                     />
                 </Form.Item>
-                <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
-
-                    <a className="login-form-forgot" href="">
-                        Forgot password
-                    </a>
-                </Form.Item>
 
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" className="login-form-button">
-                        Log in
+                        {registered? "Sign up" : "Log in"}
                     </Button>
+                    {registered? <p></p> : <Button onClick={onClick} block className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
+                        Google
+                    </Button>}
+                    <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}<Button onClick={() => setRegistered(!registered)} style={{backgroundColor: 'darkblue', color: 'white' }}>{registered? "Inicia sesión" : "Registrate"}</Button></p>
                 </Form.Item>
             </Form>
         </>
