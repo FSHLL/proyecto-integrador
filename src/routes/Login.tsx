@@ -3,13 +3,13 @@ import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import appFirebase from './firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { User } from '@/Interfaces/User';
 
 export const Login = () => {
     const navigate = useNavigate();
     const auth = getAuth(appFirebase)
-    const [form] = Form.useForm(); 
+    const [form] = Form.useForm();
     const [registered, setRegistered] = useState(false)
 
     const onFinish = async ({ username, password }: User) => {
@@ -31,14 +31,14 @@ export const Login = () => {
         form.resetFields();
     };
 
-    const onClick = async (e) => {
+    const onClick = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         const provider = new GoogleAuthProvider();
         try {
-          await signInWithPopup(auth, provider)
-          navigate('game')
+            await signInWithPopup(auth, provider)
+            navigate('game')
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
     };
 
@@ -76,7 +76,7 @@ export const Login = () => {
                     <Button block type="primary" htmlType="submit" className="login-form-button">
                         {registered? "Sign up" : "Log in"}
                     </Button>
-                    {registered? <p></p> : <Button onClick={onClick} block type="button" className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
+                    {registered? <p></p> : <Button onClick={onClick} block className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
                         Google
                     </Button>}
                     <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}<Button onClick={() => setRegistered(!registered)} style={{backgroundColor: 'darkblue', color: 'white' }}>{registered? "Inicia sesión" : "Registrate"}</Button></p>

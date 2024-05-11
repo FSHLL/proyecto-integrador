@@ -12,7 +12,6 @@ import { Warrior } from "@/models/Warrior";
 import { getRandomArbitrary } from "@/helpers/random";
 import { Trunk } from "@/components/Trunk";
 import { Vector3 } from "three";
-import Checkpoint from "@/components/Checkpoint";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -35,12 +34,6 @@ export const Index = () => {
 
     // @ts-expect-error State types unavailable
     const setMoveToPoint = useGame((state) => state.setMoveToPoint);
-
-    const inCheckpoint = () => {
-        setEcctrlMode(null)
-        setVelocity(2.5)
-        setLoading(false);
-    }
 
     useEffect(() => {
         const timer = setTimeout(() => {

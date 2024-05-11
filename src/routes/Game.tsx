@@ -3,18 +3,18 @@ import { Suspense, useState } from "react"
 import { Physics } from "@react-three/rapier";
 import { Outlet } from "react-router-dom";
 import appFirebase from './firebaseConfig';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export const Game = () => {
   const auth = getAuth(appFirebase);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
 
   onAuthStateChanged(auth, (userFirebase) => {
     if(userFirebase) {
       setUser(userFirebase);
-      console.log(user.email, "g");
+      console.log(user?.email, "g");
     } else {
-      setUser(null);
+      setUser(undefined);
     }
   });
 
