@@ -1,10 +1,10 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import appFirebase from './firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, 
-    signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { User } from '@/Interfaces/User';
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const Login = () => {
     const [form] = Form.useForm(); 
     const [registered, setRegistered] = useState(false)
 
-    const onFinish = async ({ username, password }) => {
+    const onFinish = async ({ username, password }: User) => {
         if(registered) {
             try {
                 await createUserWithEmailAndPassword(auth, username, password);
@@ -71,15 +71,6 @@ export const Login = () => {
                         placeholder="Password"
                     />
                 </Form.Item>
-                {/* <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        {registered? <p></p> : <Checkbox>Remember me</Checkbox>}
-                    </Form.Item>
-
-                    <a className="login-form-forgot" href="">
-                    {registered? "" : "Forgot password"}
-                    </a>
-                </Form.Item> */}
 
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" className="login-form-button">
