@@ -20,7 +20,8 @@ type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     moveSpeed: 0;
     attack: (position: Vector) => void
     delay: 1000
-  }
+    damage: 30
+}
 
 // export const CharacterController = ({characterRef, children}: CharacterControllerProps) => {
 export const CharacterController = forwardRef<RapierRigidBody, CharacterControllerProps>((props: CharacterControllerProps, ref) => {
@@ -36,14 +37,14 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
 
     const doDamage = useHealth((state) => state.doDamage)
 
-   // @ts-expect-error State types unavailable
-   const curAnimation = useGame((state) => state.curAnimation);
+    // @ts-expect-error State types unavailable
+    const curAnimation = useGame((state) => state.curAnimation);
 
     const updateLife = () => {
         const lifeBar = lifeBarRef.current;
 
         if (curAnimation === animationSet.action1) {
-            setLife(life-30)
+            setLife(life-props.damage)
             if (lifeBar && life > 0) {
                 const sacaleX = life / 100;
                 lifeBar.scale.set(sacaleX, 1, 1);
@@ -64,7 +65,7 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
 
         const playerPosition = props.characterRef.current?.translation()
         const characterPosition = rigidBody.current?.translation()
-        
+
         if (playerPosition && characterPosition) {
             const distance = distance2Points(
                 characterPosition,
@@ -73,13 +74,13 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
 
             if (distance <= 30 && distance > 4 && life > 0 && props.moveSpeed === 0) {
                 if(props.attack) {
-                  props.attack(characterPosition)
+                    props.attack(characterPosition)
                 }
             }
 
             if (curAnimation === animationSet.action1 && distance <= 3)
             {
-                setLife(life-30)
+                setLife(life-props.damage)
                 if (lifeBar && life > 0) {
                     const sacaleX = life / 100;
                     lifeBar.scale.set(sacaleX, 1, 1);

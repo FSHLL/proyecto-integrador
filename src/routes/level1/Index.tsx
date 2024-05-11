@@ -24,6 +24,7 @@ import { CharacterController } from "@/components/CharacterController";
 import { direction2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
 import { Demon2 } from "@/models/Demon2";
+import { Pigman } from "@/models/Pigman";
 
 export const Index = () => {
 
@@ -33,6 +34,7 @@ export const Index = () => {
 
     const demon1Ref = useRef<RapierRigidBody>();
     const demon2Ref = useRef<RapierRigidBody>();
+    const pigManRef = useRef<RapierRigidBody>();
 
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
@@ -60,7 +62,7 @@ export const Index = () => {
 
     const onAttack = (position?: Vector) => {
         setTimeout(() => {
-            launchBullet(position);                
+            launchBullet(position);
         }, 1000);
     };
 
@@ -134,10 +136,10 @@ export const Index = () => {
             <color attach="background" args={['#333333']} />
 
             {/* LIGHTS */}
-            <ambientLight intensity={0.4} />
+            <ambientLight intensity={0.6} />
             <directionalLight
                 position={[5, 5, 5]}
-                intensity={0.3}
+                intensity={0.5}
                 castShadow />
 
             <KeyboardControls map={keyboardMap}>
@@ -191,6 +193,12 @@ export const Index = () => {
             <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
                 <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
             </CharacterController>
+
+            {/* @ts-expect-error Good reference */}
+            <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
+                <Pigman />
+            </CharacterController>
+
 
             {(bullets).map((bullet: TypeBullet, index: number) => (
                 <Bullet
