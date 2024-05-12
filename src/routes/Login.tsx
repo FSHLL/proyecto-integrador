@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined, GoogleOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -78,7 +78,7 @@ export const Login = () => {
                         {registered? "Sign up" : "Log in"}
                     </Button>
                     {registered? <p></p> : <Button onClick={onClick} block className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
-                        Google
+                        <GoogleOutlined/> Google
                     </Button>}
                     <p>{registered? "Si ya tienes cuenta " : "No tienes cuenta "}<Button onClick={() => setRegistered(!registered)} style={{backgroundColor: 'darkblue', color: 'white' }}>{registered? "Inicia sesión" : "Registrate"}</Button></p>
                 </Form.Item>
