@@ -1,5 +1,7 @@
 import { Checkpoint } from "@/Interfaces/Checkpoint";
 import { readCheckpoints } from "@/db/UserCheckpoints";
+import { auth } from "@/firebase";
+import { getMachineId } from "@/helpers/random";
 import { useCheckpoint } from "@/stores/useCheckpoint";
 import { Drawer, Table } from "antd";
 import { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectChe
     const { setCurCheckpoint } = useCheckpoint();
 
     const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
     const columns = [
         {
@@ -47,7 +50,9 @@ export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectChe
     ];
 
     const fetchCheckpoints = async () => {
-        const dbCheckpoints = await readCheckpoints('mail.com')
+        setLoading(true)
+        const dbCheckpoints = await readCheckpoints(auth.currentUser?.email ?? getMachineId())
+        setLoading(false)
         setCheckpoints(dbCheckpoints)
     }
 
@@ -76,6 +81,7 @@ export const SelectCheckpoint = ({open = false, onClose, onSelected} : SelectChe
                     onRow={record => ({
                         onClick: () => handleSelectCheckpoint(record),
                     })}
+                    loading={loading}
                 />
             </Drawer>
         </>
