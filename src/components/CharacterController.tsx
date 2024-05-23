@@ -8,13 +8,15 @@ import { animationSet } from "@/constants/joystick";
 import { player } from "@/constants/colliders";
 import { direction2Points, distance2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
+import { useCharacter } from "@/stores/useCharacter";
+import { useFrame } from "@react-three/fiber";
 
 // const JUMP_FORCE = 0.5;
 // const MOVEMENT_SPEED = 0.5;
 const MAX_VEL = 3;
 
 type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
-    characterRef: MutableRefObject<RapierRigidBody | undefined>;
+    // characterRef: MutableRefObject<RapierRigidBody | undefined>;
     // position: THREE.Vector3;
     children: ReactNode;
     moveSpeed: 0;
@@ -28,6 +30,8 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const rigidBody = ref as RefObject<RapierRigidBody> || useRef<RapierRigidBody>()
+
+    const characterRef = useCharacter((state) => state.characterRef)
 
     const isOnFloor = useRef(true);
     const character = useRef<THREE.Group>(null);
@@ -63,7 +67,7 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
     useEffect(() => {
         const lifeBar = lifeBarRef.current;
 
-        const playerPosition = props.characterRef.current?.translation()
+        const playerPosition = characterRef?.current?.translation()
         const characterPosition = rigidBody.current?.translation()
 
         if (playerPosition && characterPosition) {
@@ -87,25 +91,31 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
                 }
             }
         }
-    }, [curAnimation, life, props, props.characterRef, rigidBody])
+    }, [characterRef, curAnimation, life, props, rigidBody])
 
-    useEffect(() => {
+    const isLimitVelocity = (linvel: Vector) => {
+        return linvel.x < MAX_VEL && linvel.y < MAX_VEL && linvel.z < MAX_VEL
+    }
+
+    useFrame(() => {
         const linvel = rigidBody.current?.linvel();
-        const characterPosition = props.characterRef.current?.translation()
+        const characterPosition = characterRef?.current?.translation()
         const rigidPosition = rigidBody.current?.translation()
 
         if (linvel && characterPosition && rigidPosition) {
             const direction = direction2Points(characterPosition, rigidPosition)
             const distance = distance2Points(characterPosition, rigidPosition)
 
-            if (distance <= 30 && distance > 4 && life > 0 && props.moveSpeed === 0) {
+            if (distance <= 30 && distance > 4 && life > 0 && isLimitVelocity(linvel)) {
                 if(props.attack) {
-                  props.attack(characterPosition)
+                    props.attack(characterPosition)
                 }
             }
-            
-            if (distance <= 40 && distance && props.moveSpeed > 0 && linvel.x < MAX_VEL) {
-                rigidBody.current?.applyImpulse(direction, true);
+
+            if (distance <= 40 && distance && props.moveSpeed > 0 && linvel.x < MAX_VEL && linvel.y < MAX_VEL) {
+                const scaledDirection = direction.multiplyScalar(0.1);
+                const scaledDistance = Math.min(1, 40 / distance);
+                rigidBody.current?.applyImpulse(scaledDirection.multiplyScalar(scaledDistance), true);
             }
 
             if (character.current) {

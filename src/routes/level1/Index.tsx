@@ -27,6 +27,7 @@ import { Demon2 } from "@/models/Demon2";
 import { Pigman } from "@/models/Pigman";
 import { gameStates, useHealth } from "@/stores/useHealth";
 import { GameOver } from "@/components/GameOver";
+import { useCharacter } from "@/stores/useCharacter";
 
 export const Index = () => {
 
@@ -39,6 +40,8 @@ export const Index = () => {
     const pigManRef = useRef<RapierRigidBody>();
 
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
+
+    const setCharacterRef = useCharacter((state) => state.setCharacterRef)
 
     // const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
 
@@ -96,27 +99,6 @@ export const Index = () => {
     };
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            // setTrunksToShow((prevTrunks) => {
-            //     const randomX = getRandomArbitrary(-50, 40);
-            //     const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
-            //     return [...prevTrunks, newTrunk];
-            // });
-            // const bullet = {
-            //     id: + "-" + +new Date(),
-            //     position: vec3(characterRef.current?.translation()),
-            //     angle: 0,
-            //     // player: state.id,
-            // }
-            // setBullets((bullets: TypeBullet[]) => [...bullets, bullet]);
-            // console.log(characterRef.current?.translation());
-            onAttack();
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
         if ([animationSet.walk, animationSet.run].includes(curAnimation) && !loading) {
             playAudio(curAnimation.toLowerCase());
         } else {
@@ -133,6 +115,10 @@ export const Index = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        setCharacterRef(characterRef)
+    }, [characterRef, setCharacterRef])
 
     return (
         <>
@@ -191,14 +177,14 @@ export const Index = () => {
             {!loading &&
                 <>
                     {/* @ts-expect-error Good reference */}
-                    <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref} characterRef={characterRef}>
-                        <Demon rigidBodyRef={demon1Ref} characterRef={characterRef} />
+                    <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref}>
+                        <Demon rigidBodyRef={demon1Ref} />
                     </CharacterController>
 
                     {/* @ts-expect-error Good reference */}
-                    <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
+                    {/* <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
                         <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
-                    </CharacterController>
+                    </CharacterController> */}
 
                     {/* @ts-expect-error Good reference */}
                     <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
