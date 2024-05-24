@@ -9,7 +9,6 @@ interface CharacterStore {
     setCharacterRef: (ref: CharacterRef) => void;
 }
 
-
 export const useCharacter = create<CharacterStore>((set) => ({
     characterRef: null,
     setCharacterRef: (ref) => set({ characterRef: ref }),
