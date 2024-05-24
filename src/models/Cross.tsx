@@ -7,6 +7,10 @@ import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useCharacter } from '@/stores/useCharacter'
+import { distance2Points } from '@/helpers/distance'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -18,9 +22,26 @@ type GLTFResult = GLTF & {
 }
 
 export function Cross(props: JSX.IntrinsicElements['group']) {
+  const group = useRef<THREE.Group>(null)
+
   const { nodes, materials } = useGLTF(getModelPath('cross')) as GLTFResult
+
+  const characterRef = useCharacter((state) => state.characterRef)
+
+  useFrame(() => {
+    if (group?.current && characterRef?.current) {
+      const distance = distance2Points(
+        group.current.position,
+        characterRef.current.translation()
+      )
+      if (distance <= 5) {
+
+      }
+    }
+  })
+
   return (
-    <group {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null}>
       <mesh geometry={nodes.group606943721.geometry} material={materials.mat22} />
     </group>
   )
