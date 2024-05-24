@@ -35,10 +35,6 @@ export const Index = () => {
 
     const characterRef = useRef<RapierRigidBody>();
 
-    const demon1Ref = useRef<RapierRigidBody>();
-    const demon2Ref = useRef<RapierRigidBody>();
-    const pigManRef = useRef<RapierRigidBody>();
-
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
 
     const setCharacterRef = useCharacter((state) => state.setCharacterRef)
@@ -68,17 +64,15 @@ export const Index = () => {
     };
 
     const onAttack = (position?: Vector) => {
-        setTimeout(() => {
-            launchBullet(position);
-        }, 1000);
+        launchBullet(position);
     };
 
     const launchBullet = (position?: Vector) => {
-        const demonPosition = demon2Ref.current?.translation();
+        const demonPosition = position;
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
-            const bulletPosition = position;
+            const bulletPosition = demonPosition;
 
             const direction = direction2Points(characterPosition, demonPosition)
 
@@ -88,8 +82,8 @@ export const Index = () => {
                 id: (new Date()).toTimeString(),
                 position: vec3(bulletPosition),
                 angle: bulletAngle,
-                // player: state.id,
             };
+            
             setBullets((bullets) => [...bullets, bullet]);
         }
     };
@@ -176,18 +170,23 @@ export const Index = () => {
 
             {!loading &&
                 <>
-                    {/* @ts-expect-error Good reference */}
-                    <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref}>
-                        <Demon rigidBodyRef={demon1Ref} />
+                    <CharacterController position={[0,0,50]} moveSpeed={0.2}>
+                        <Demon />
                     </CharacterController>
 
-                    {/* @ts-expect-error Good reference */}
-                    {/* <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
-                        <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
-                    </CharacterController> */}
+                    <CharacterController position={[4,0,55]} moveSpeed={0.2}>
+                        <Demon />
+                    </CharacterController>
 
-                    {/* @ts-expect-error Good reference */}
-                    <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
+                    <CharacterController position={[-4,0,55]} moveSpeed={0.2}>
+                        <Demon />
+                    </CharacterController>
+
+                    <CharacterController attack={onAttack} position={[4,0,100]}>
+                        <Demon2 />
+                    </CharacterController>
+
+                    <CharacterController position={[-135 ,0, 10]} damage={15} moveSpeed={0.1}>
                         <Pigman />
                     </CharacterController>
 
