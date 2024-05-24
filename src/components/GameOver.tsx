@@ -1,7 +1,7 @@
 import React from 'react';
 import {  Modal, Typography, Button } from 'antd';
 // import { useNavigate } from 'react-router-dom';
-import { useGame } from '@/stores/useGame';
+import { useHealth } from '@/stores/useHealth';
 const { Title } = Typography;
 
 interface GameOverProps {
@@ -17,7 +17,7 @@ export const GameOver: React.FC<GameOverProps> = () => {
     // const navigate = useNavigate()
     // const navigate = useNavigate();
 
-    const reset = useGame((state) => state.reset);
+    const reset = useHealth((state) => state.reset);
 
     const goToMenu = () => {
         // navigate('/game')

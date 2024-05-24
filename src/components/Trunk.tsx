@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { player } from "@/constants/colliders";
-import { useGame } from "@/stores/useGame";
+import { useHealth } from "@/stores/useHealth";
 
 interface TrunkProps {
     position?: Vector3;
@@ -15,7 +15,7 @@ export const Trunk = ({ position = new Vector3(0, 0, 0), scale = new Vector3(0.5
 
     const kicker = useRef<RapierRigidBody>(null)
 
-    const doDamage = useGame((state) => state.doDamage)
+    const doDamage = useHealth((state) => state.doDamage)
 
     useFrame(() => {
         setTimeout(() => {
