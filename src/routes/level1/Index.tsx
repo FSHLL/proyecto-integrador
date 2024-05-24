@@ -127,7 +127,7 @@ export const Index = () => {
                 castShadow />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
+                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-5} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}
@@ -142,7 +142,7 @@ export const Index = () => {
 
             {!loading &&
                 <RigidBody type="fixed" colliders={"trimesh"} ccd>
-                    <Map1 position={[-63, -10, 98]}/>
+                    <Map1 position={[-42, -10, 37]}/>
                     <mesh
                         rotation={[-0.5 * Math.PI, 0, 0]}
                         position={[0, 0, 0]}
@@ -186,8 +186,8 @@ export const Index = () => {
                         <Demon2 />
                     </CharacterController>
 
-                    <CharacterController position={[-135 ,0, 10]} damage={15} moveSpeed={0.1}>
-                        <Pigman />
+                    <CharacterController position={[-80 ,0, 10]} damage={15} moveSpeed={0.1}>
+                        <Pigman scale={5}/>
                     </CharacterController>
 
 
