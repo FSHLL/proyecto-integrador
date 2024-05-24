@@ -1,9 +1,9 @@
-import { useHealth } from "@/stores/useHealth";
+import { useGame } from "@/stores/useGame";
 import { Progress, Statistic } from "antd";
 
 export const Health = () => {
-    const curHealth = useHealth((state) => state.curHealth)
-    const lives = useHealth((state) => state.lives)
+    const curHealth = useGame((state) => state.curHealth)
+    const lives = useGame((state) => state.lives)
 
     return (
         <>

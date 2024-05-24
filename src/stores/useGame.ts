@@ -7,7 +7,7 @@ export const gameStates = {
     GAME_OVER: "GAME_OVER",
 };
 
-interface HealthStore {
+interface GameStore {
     gameState: string;
     lives: number;
     curHealth: number;
@@ -23,8 +23,8 @@ const initialData = {
     curHealth: 100,
 }
 
-export const useHealth = create(
-    persist<HealthStore>(
+export const useGame = create(
+    persist<GameStore>(
         (set, get) => ({
             ...initialData,
             doDamage: (damage) => {

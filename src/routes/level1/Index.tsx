@@ -25,9 +25,12 @@ import { direction2Points } from "@/helpers/distance";
 import { Vector } from "@dimforge/rapier3d-compat";
 import { Demon2 } from "@/models/Demon2";
 import { Pigman } from "@/models/Pigman";
-import { gameStates, useHealth } from "@/stores/useHealth";
+import { gameStates, useGame as useLocalGame } from "@/stores/useGame";
 import { GameOver } from "@/components/GameOver";
 import { useCharacter } from "@/stores/useCharacter";
+// import { rewards } from "./rewards";
+// import { Reward } from "@/Interfaces/Reward";
+// import { Cross } from "@/models/Cross";
 
 export const Index = () => {
 
@@ -55,16 +58,12 @@ export const Index = () => {
     // @ts-expect-error State types unavailable
     const setMoveToPoint = useGame((state) => state.setMoveToPoint);
 
-    const gameState = useHealth((state) => state.gameState);
+    const gameState = useLocalGame((state) => state.gameState);
 
     const inCheckpoint = () => {
         setEcctrlMode(null)
         setVelocity(2.5)
         setLoading(false);
-    };
-
-    const onAttack = (position?: Vector) => {
-        launchBullet(position);
     };
 
     const launchBullet = (position?: Vector) => {
@@ -182,7 +181,7 @@ export const Index = () => {
                         <Demon />
                     </CharacterController>
 
-                    <CharacterController attack={onAttack} position={[4,0,100]}>
+                    <CharacterController attack={launchBullet} position={[4,0,100]}>
                         <Demon2 />
                     </CharacterController>
 
@@ -190,16 +189,26 @@ export const Index = () => {
                         <Pigman scale={5}/>
                     </CharacterController>
 
-
-                    {(bullets).map((bullet: TypeBullet, index: number) => (
-                        <Bullet
-                            key={index}
-                            id={bullet.id}
-                            angle={bullet.angle}
-                            position={bullet.position}
-                            onHit={onHit} />
-                    ))
+                    {
+                        (bullets).map((bullet: TypeBullet, index: number) => (
+                            <Bullet
+                                key={index}
+                                id={bullet.id}
+                                angle={bullet.angle}
+                                position={bullet.position}
+                                onHit={onHit} />
+                        ))
                     }
+
+                    {/* {
+                        (rewards).map((reward: Reward) => (
+                            <Cross
+                                scale={0.5}
+                                key={reward.id}
+                                position={reward.position}
+                            />
+                        ))
+                    } */}
                 </>
             }
 
