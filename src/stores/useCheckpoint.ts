@@ -4,10 +4,10 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface CheckpointStore {
-    curCheckpoint: Checkpoint;
+    curCheckpoint: Checkpoint|null;
     checkpoints: Checkpoint[];
     addCheckpoint: (checkpoint: Checkpoint) => void;
-    setCurCheckpoint: (checkpoint: Checkpoint) => void;
+    setCurCheckpoint: (checkpoint: Checkpoint|null) => void;
 }
 
 export const useCheckpoint = create(

@@ -9,7 +9,7 @@ Title: Big Daddy Pig
 
 import * as THREE from 'three'
 import { useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
 

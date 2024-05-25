@@ -24,6 +24,7 @@ type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     attack?: (position: Vector) => void
     delay?: number
     damage?: number
+    death?: (position: Vector) => void
 }
 
 const defaultProps = {
@@ -95,6 +96,8 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
                 if (lifeBar && life > 0) {
                     const sacaleX = life / 100;
                     lifeBar.scale.set(sacaleX, 1, 1);
+                } else if(props.death) {
+                    props.death(characterPosition)
                 }
             }
         }
