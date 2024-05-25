@@ -119,7 +119,7 @@ export const Index = () => {
     }, [curAnimation, loading]);
 
     useEffect(() => {
-        if (curCheckpoint) {
+        if (curCheckpoint && curCheckpoint.position) {
             setLoading(true);
             setEcctrlMode('PointToMove');
             setVelocity(14);
