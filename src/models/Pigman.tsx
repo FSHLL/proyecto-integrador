@@ -9,7 +9,7 @@ Title: Big Daddy Pig
 
 import * as THREE from 'three'
 import { useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
 
@@ -33,8 +33,8 @@ interface GLTFAction extends THREE.AnimationClip {
 
 export function Pigman(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(getModelPath('pigman')) as GLTFResult
-  const { actions } = useAnimations(animations, group)
+  const { nodes, materials } = useGLTF(getModelPath('pigman')) as GLTFResult
+  // const { actions } = useAnimations(animations, group)
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">

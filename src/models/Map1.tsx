@@ -4,7 +4,6 @@ Command: npx gltfjsx@6.2.16 .\public\models\map1\model.glb -t -s
 */
 
 import * as THREE from 'three'
-import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
