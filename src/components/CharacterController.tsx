@@ -1,4 +1,4 @@
-import { useHealth } from "@/stores/useHealth";
+import { useGame as useLocalGame } from "@/stores/useGame";
 import { CapsuleCollider, CollisionEnterPayload, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { Children, ReactNode, RefObject, cloneElement, forwardRef, useEffect, useRef, useState } from "react";
 import * as THREE from 'three'
@@ -24,6 +24,7 @@ type CharacterControllerProps = JSX.IntrinsicElements['group'] & {
     attack?: (position: Vector) => void
     delay?: number
     damage?: number
+    death?: (position: Vector) => void
 }
 
 const defaultProps = {
@@ -50,7 +51,7 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
     const [life, setLife] = useState<number>(100);
     const lifeBarRef = useRef<THREE.Mesh>(null);
 
-    const doDamage = useHealth((state) => state.doDamage)
+    const doDamage = useLocalGame((state) => state.doDamage)
 
     // @ts-expect-error State types unavailable
     const curAnimation = useGame((state) => state.curAnimation);
@@ -95,6 +96,8 @@ export const CharacterController = forwardRef<RapierRigidBody, CharacterControll
                 if (lifeBar && life > 0) {
                     const sacaleX = life / 100;
                     lifeBar.scale.set(sacaleX, 1, 1);
+                } else if(props.death) {
+                    props.death(characterPosition)
                 }
             }
         }

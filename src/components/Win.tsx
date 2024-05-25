@@ -1,29 +1,24 @@
-import React from 'react';
 import {  Modal, Typography, Button } from 'antd';
-// import { useNavigate } from 'react-router-dom';
-import { useGame } from '@/stores/useGame';
 const { Title } = Typography;
 
-interface GameOverProps {
-    // over: boolean;
+interface WinProps {
+    level: string;
     // setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const GameOver: React.FC<GameOverProps> = () => {
-    // const handleClose = () => {
-    //     setLoading(false);
-    // };
+export const Win = (props: WinProps) => {
 
-    // const navigate = useNavigate()
-    // const navigate = useNavigate();
-
-    const reset = useGame((state) => state.reset);
-
-    const goToMenu = () => {
-        // navigate('/game')
-        reset()
-        window.location.reload()
+    const goToNextLevel = () => {
+        window.location.pathname = newRoute(props.level)
     }
+
+    const newRoute = (newPath: string) => {
+        const regex = /\/([^\\/]*)$/;
+
+        const path =  window.location.pathname;
+
+        return path.replace(regex, "/" + newPath);
+    } 
 
     return (
         <Modal
@@ -41,9 +36,9 @@ export const GameOver: React.FC<GameOverProps> = () => {
                 <br />
                 <br />
                 {/* <Spin size="large" /> */}
-                <Title>Fin del juego...</Title>
-                <Button onClick={goToMenu}>
-                    Intentar de nuevo
+                <Title>Ganaste</Title>
+                <Button onClick={goToNextLevel}>
+                    Siguinete Nivel
                 </Button>
                 <br />
                 <br />

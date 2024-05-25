@@ -10,7 +10,7 @@ interface CheckpointProps {
     id: number;
     level: number;
     position: Vector3;
-    onCollision: (coll: CollisionEnterPayload) => void;
+    onCollision: (coll: CollisionEnterPayload, id: number) => void;
 }
 
 const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
@@ -30,7 +30,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
         if (!checkpoint) {
             addCheckpoint(newCheckpoint);
         }
-        onCollision(coll)
+        onCollision(coll, id)
     };
 
     return (
