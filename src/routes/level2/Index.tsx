@@ -56,7 +56,7 @@ export const Index = () => {
     }, [curAnimation, loading]);
 
     useEffect(() => {
-        if (curCheckpoint.position) {
+        if (curCheckpoint) {
             setLoading(true);
             setEcctrlMode('PointToMove')
             setVelocity(14)
