@@ -66,11 +66,11 @@ export const Index = () => {
     };
 
     const launchBullet = (position?: Vector) => {
-        const demonPosition = demon2Ref.current?.translation();
+        const demonPosition = position;
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
-            const bulletPosition = position;
+            const bulletPosition = demonPosition;
 
             const direction = direction2Points(characterPosition, demonPosition)
             const bulletAngle = Math.atan2(direction.x, direction.z);
@@ -248,14 +248,14 @@ export const Index = () => {
                 ))
             }
 
-{
-            (bullets).map((bullet: TypeBullet, index: number) => (
-                <Bullet
-                    key={index}
-                    id={bullet.id}
-                    angle={bullet.angle}
-                    position={bullet.position}
-                    onHit={onHit} />
+            {
+                (bullets).map((bullet: TypeBullet, index: number) => (
+                    <Bullet
+                        key={index}
+                        id={bullet.id}
+                        angle={bullet.angle}
+                        position={bullet.position}
+                        onHit={onHit} />
                 ))
             }
 
