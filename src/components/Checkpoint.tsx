@@ -3,6 +3,8 @@ import { CollisionEnterPayload, RigidBody } from '@react-three/rapier';
 import { Cylinder } from '@react-three/drei';
 import { useCheckpoint } from '@/stores/useCheckpoint';
 import { player } from '@/constants/colliders';
+import { auth } from '@/firebase';
+import { getMachineId } from '@/helpers/random';
 
 interface CheckpointProps {
     id: number;
@@ -18,7 +20,7 @@ const Checkpoint = ({ id, level, position, onCollision }: CheckpointProps) => {
     const handleAddCheckpoint = (coll: CollisionEnterPayload) => {
         const newCheckpoint = {
             id: id,
-            userEmail: 'mail.com',
+            userEmail: auth.currentUser?.email ?? getMachineId(),
             level: level,
             score: 100,
             position: position,

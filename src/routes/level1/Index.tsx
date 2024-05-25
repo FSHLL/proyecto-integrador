@@ -27,6 +27,7 @@ import { Demon2 } from "@/models/Demon2";
 import { Pigman } from "@/models/Pigman";
 import { gameStates, useHealth } from "@/stores/useHealth";
 import { GameOver } from "@/components/GameOver";
+import { useCharacter } from "@/stores/useCharacter";
 
 export const Index = () => {
 
@@ -34,11 +35,9 @@ export const Index = () => {
 
     const characterRef = useRef<RapierRigidBody>();
 
-    const demon1Ref = useRef<RapierRigidBody>();
-    const demon2Ref = useRef<RapierRigidBody>();
-    const pigManRef = useRef<RapierRigidBody>();
-
     const curCheckpoint = useCheckpoint((state) => state.curCheckpoint);
+
+    const setCharacterRef = useCharacter((state) => state.setCharacterRef)
 
     // const [trunksToShow, setTrunksToShow] = useState<JSX.Element[]>([]);
 
@@ -65,17 +64,15 @@ export const Index = () => {
     };
 
     const onAttack = (position?: Vector) => {
-        setTimeout(() => {
-            launchBullet(position);
-        }, 1000);
+        launchBullet(position);
     };
 
     const launchBullet = (position?: Vector) => {
-        const demonPosition = demon1Ref.current?.translation();
+        const demonPosition = position;
         const characterPosition = characterRef.current?.translation()
 
         if (demonPosition && characterPosition) {
-            const bulletPosition = position;
+            const bulletPosition = demonPosition;
 
             const direction = direction2Points(characterPosition, demonPosition)
 
@@ -85,8 +82,8 @@ export const Index = () => {
                 id: (new Date()).toTimeString(),
                 position: vec3(bulletPosition),
                 angle: bulletAngle,
-                // player: state.id,
             };
+            
             setBullets((bullets) => [...bullets, bullet]);
         }
     };
@@ -94,27 +91,6 @@ export const Index = () => {
     const onHit = (bulletId: string) => {
         setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
     };
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            // setTrunksToShow((prevTrunks) => {
-            //     const randomX = getRandomArbitrary(-50, 40);
-            //     const newTrunk = <Trunk key={prevTrunks.length} position={new Vector3(randomX, 5, 20)} />;
-            //     return [...prevTrunks, newTrunk];
-            // });
-            // const bullet = {
-            //     id: + "-" + +new Date(),
-            //     position: vec3(characterRef.current?.translation()),
-            //     angle: 0,
-            //     // player: state.id,
-            // }
-            // setBullets((bullets: TypeBullet[]) => [...bullets, bullet]);
-            // console.log(characterRef.current?.translation());
-            onAttack();
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    });
 
     useEffect(() => {
         if ([animationSet.walk, animationSet.run].includes(curAnimation) && !loading) {
@@ -134,6 +110,10 @@ export const Index = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        setCharacterRef(characterRef)
+    }, [characterRef, setCharacterRef])
+
     return (
         <>
             {/* <color attach="background" args={["#ececec"]} /> */}
@@ -147,7 +127,7 @@ export const Index = () => {
                 castShadow />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-10} animated>
+                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-5} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}
@@ -162,7 +142,7 @@ export const Index = () => {
 
             {!loading &&
                 <RigidBody type="fixed" colliders={"trimesh"} ccd>
-                    <Map1 position={[-63, -10, 98]}/>
+                    <Map1 position={[-42, -10, 37]}/>
                     <mesh
                         rotation={[-0.5 * Math.PI, 0, 0]}
                         position={[0, 0, 0]}
@@ -190,19 +170,24 @@ export const Index = () => {
 
             {!loading &&
                 <>
-                    {/* @ts-expect-error Good reference */}
-                    <CharacterController position={[0,0,50]} moveSpeed={0.5} ref={demon1Ref} characterRef={characterRef}>
-                        <Demon rigidBodyRef={demon1Ref} characterRef={characterRef} />
+                    <CharacterController position={[0,0,50]} moveSpeed={0.2}>
+                        <Demon />
                     </CharacterController>
 
-                    {/* @ts-expect-error Good reference */}
-                    <CharacterController attack={onAttack} position={[4,0,50]} moveSpeed={0} ref={demon2Ref} characterRef={characterRef}>
-                        <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef} />
+                    <CharacterController position={[4,0,55]} moveSpeed={0.2}>
+                        <Demon />
                     </CharacterController>
 
-                    {/* @ts-expect-error Good reference */}
-                    <CharacterController attack={onAttack} position={[-135 ,0, 10]} damage={15} moveSpeed={0.1} ref={pigManRef} characterRef={characterRef}>
-                        <Pigman />
+                    <CharacterController position={[-4,0,55]} moveSpeed={0.2}>
+                        <Demon />
+                    </CharacterController>
+
+                    <CharacterController attack={onAttack} position={[4,0,100]}>
+                        <Demon2 />
+                    </CharacterController>
+
+                    <CharacterController position={[-80 ,0, 10]} damage={15} moveSpeed={0.1}>
+                        <Pigman scale={5}/>
                     </CharacterController>
 
 
