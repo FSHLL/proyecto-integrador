@@ -118,9 +118,13 @@ const Menu = () => {
             {isHovered && (
                 <pointLight position={[0, 0, 0]} intensity={100} color="#fff" />
             )}
-            <Html>
-                <SelectCheckpoint open={open} onClose={onClose} onSelected={onSelected} />
-            </Html>
+
+            {!isAnimating && (
+                <Html>
+                    <SelectCheckpoint open={open} onClose={onClose} onSelected={onSelected} />
+                </Html>
+            )}
+
         </>
     );
 };

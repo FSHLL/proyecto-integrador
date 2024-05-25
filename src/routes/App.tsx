@@ -37,7 +37,7 @@ export const App = () => {
     <>
       <Layout style={{ minHeight: '100vh' }}>
         <Header style={{ display: 'flex', alignItems: 'center' }}>
-          <img onClick={goHome} height={70} src="https://universate.co/wp-content/uploads/2022/05/logo-universidad-del-valle.png" alt="log"/>
+          <img onClick={goHome} height={70} src="./images/logo-universidad-del-valle.png" alt="log"/>
           <Menu
             onClick={onClick}
             theme="dark"

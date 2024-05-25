@@ -10,6 +10,9 @@ import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
 import { RapierRigidBody } from '@react-three/rapier'
 import { distance2Points } from '@/helpers/distance'
+import { useSkinnedMeshClone } from '@/helpers/clone'
+import { useFrame } from '@react-three/fiber'
+import { useCharacter } from '@/stores/useCharacter'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -29,16 +32,17 @@ interface GLTFAction extends THREE.AnimationClip {
 
 type DemonProps = JSX.IntrinsicElements['group'] & {
   rigidBodyRef?: MutableRefObject<RapierRigidBody | undefined>
-  characterRef?: MutableRefObject<RapierRigidBody | undefined>
   attack?: () => void
 }
 
 export function Demon(props: DemonProps) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(getModelPath('demon')) as GLTFResult
+  const { nodes, materials, animations } = useSkinnedMeshClone(getModelPath('demon')) as GLTFResult
   const { actions } = useAnimations(animations, group)
 
   const [attack, setAttack] = useState<boolean>(false)
+
+  const characterRef = useCharacter((state) => state.characterRef)
 
   useEffect(() => {
     const animation = attack ? 'EnemyArmature|EnemyArmature|EnemyArmature|Attack' : 'EnemyArmature|EnemyArmature|EnemyArmature|Idle';
@@ -48,11 +52,11 @@ export function Demon(props: DemonProps) {
     };
   }, [attack, actions]);
 
-  useEffect(() => {
-    if (props.rigidBodyRef?.current && props.characterRef?.current) {
+  useFrame(() => {
+    if (props.rigidBodyRef?.current && characterRef?.current) {
       const distance = distance2Points(
         props.rigidBodyRef.current.translation(),
-        props.characterRef.current.translation()
+        characterRef.current.translation()
       )
       if (distance <= 30) {
         setAttack(true)
@@ -63,7 +67,7 @@ export function Demon(props: DemonProps) {
         setAttack(false)
       }
     }
-  }, [props])
+  })
 
   return (
     <group ref={group} {...props} dispose={null}>

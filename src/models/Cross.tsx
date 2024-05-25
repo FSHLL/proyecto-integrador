@@ -7,6 +7,12 @@ import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useCharacter } from '@/stores/useCharacter'
+import { distance2Points } from '@/helpers/distance'
+import { useGame } from '@/stores/useGame'
+import { Reward } from '@/Interfaces/Reward'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -17,12 +23,42 @@ type GLTFResult = GLTF & {
   }
 }
 
-export function Cross(props: JSX.IntrinsicElements['group']) {
+type CrossProps = JSX.IntrinsicElements['group'] & {
+  reward?: Reward
+}
+
+export function Cross(props: CrossProps) {
+  const group = useRef<THREE.Group>(null)
+
   const { nodes, materials } = useGLTF(getModelPath('cross')) as GLTFResult
+
+  const characterRef = useCharacter((state) => state.characterRef)
+
+  const { rewards, addReword } = useGame()
+
+  useFrame(() => {
+    if (group?.current && characterRef?.current) {
+      const distance = distance2Points(
+        group.current.position,
+        characterRef.current.translation()
+      )
+      if (distance <= 2) {
+        if (props.reward) {
+          const reward = rewards.find(r => r.id === props.reward?.id && r.level === props.reward?.level)
+          if (!reward) {
+            addReword(props.reward)
+          }
+        }
+      }
+    }
+  })
+
   return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.group606943721.geometry} material={materials.mat22} />
-    </group>
+    <>
+      <group ref={group} {...props} dispose={null}>
+        <mesh geometry={nodes.group606943721.geometry} material={materials.mat22} />
+      </group>
+    </>
   )
 }
 

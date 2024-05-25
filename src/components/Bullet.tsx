@@ -1,5 +1,5 @@
 import { player } from "@/constants/colliders";
-import { useHealth } from "@/stores/useHealth";
+import { useGame } from "@/stores/useGame";
 import { IntersectionEnterPayload, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import { MeshBasicMaterial, Vector3 } from "three";
@@ -29,7 +29,7 @@ bulletMaterial.color.multiplyScalar(42);
 export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
     const rigidBody = useRef<RapierRigidBody>(null);
 
-    const doDamage = useHealth((state) => state.doDamage)
+    const doDamage = useGame((state) => state.doDamage)
 
     useEffect(() => {
         // const audio = new Audio("/sounds/rifle.mp3");
