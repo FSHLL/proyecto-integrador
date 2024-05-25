@@ -13,7 +13,7 @@ interface CheckpointStore {
 export const useCheckpoint = create(
     persist<CheckpointStore>(
         (set, get) => ({
-            curCheckpoint: {} as Checkpoint,
+            curCheckpoint: null,
             checkpoints: [],
             addCheckpoint: (checkpoint) => {
                 set({ checkpoints: [...get().checkpoints, checkpoint] })

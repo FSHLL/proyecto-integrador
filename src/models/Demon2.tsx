@@ -10,6 +10,7 @@ import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
 import { RapierRigidBody } from '@react-three/rapier'
 import { distance2Points } from '@/helpers/distance'
+import { useSkinnedMeshClone } from '@/helpers/clone'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -42,7 +43,7 @@ type DemonProps = JSX.IntrinsicElements['group'] & {
 
 export function Demon2(props: DemonProps) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(getModelPath('demon2')) as GLTFResult
+  const { nodes, materials, animations } = useSkinnedMeshClone(getModelPath('demon2')) as GLTFResult
   const { actions } = useAnimations(animations, group)
 
   const [attack, setAttack] = useState<boolean>(false)
