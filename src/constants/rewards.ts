@@ -53,4 +53,14 @@ export const rewards:Reward[] = [
         position: new Vector3(17,-5.5,0),
         level: 2
     },
+    {
+        id: '11',
+        position: new Vector3(-58,-5.5, 49),
+        level: 2
+    },
+    {
+        id: '12',
+        position: new Vector3(-27,-5.5, 42),
+        level: 2
+    },
 ]
