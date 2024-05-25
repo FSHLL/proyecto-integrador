@@ -211,8 +211,15 @@ export const Index = () => {
                     <CharacterController position={[-4,0,55]} moveSpeed={0.2}>
                         <Demon />
                     </CharacterController>
-                   
 
+                    <CharacterController position={[-60, -4.4, 90]} moveSpeed={0.1}>
+                        <Demon />
+                    </CharacterController>
+
+                    <CharacterController position={[-65, -4.4, 92]} moveSpeed={0.1}>
+                        <Demon />
+                    </CharacterController>
+                   
                     {showPigman &&
                         <CharacterController death={death} position={[-80 ,0, 10]} damage={15} moveSpeed={0.1}>
                             <Pigman scale={5}/>
