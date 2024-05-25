@@ -2,5 +2,6 @@ import { Vector3 } from "three";
 
 export interface Reward {
     id: string;
-    position: Vector3;
+    position?: Vector3;
+    level: number
 }

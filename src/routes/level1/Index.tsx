@@ -28,6 +28,9 @@ import { Pigman } from "@/models/Pigman";
 import { gameStates, useGame as useLocalGame } from "@/stores/useGame";
 import { GameOver } from "@/components/GameOver";
 import { useCharacter } from "@/stores/useCharacter";
+import { rewards } from "@/constants/rewards";
+import { Reward } from "@/Interfaces/Reward";
+import { Cross } from "@/models/Cross";
 // import { rewards } from "./rewards";
 // import { Reward } from "@/Interfaces/Reward";
 // import { Cross } from "@/models/Cross";
@@ -60,6 +63,12 @@ export const Index = () => {
 
     const gameState = useLocalGame((state) => state.gameState);
 
+    const setCurLevel = useLocalGame((state) => state.setCurLevel);
+
+    const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);
+
+    const storeRewards = useLocalGame((state) => state.rewards);
+
     const inCheckpoint = () => {
         setEcctrlMode(null)
         setVelocity(2.5)
@@ -82,7 +91,7 @@ export const Index = () => {
                 position: vec3(bulletPosition),
                 angle: bulletAngle,
             };
-            
+
             setBullets((bullets) => [...bullets, bullet]);
         }
     };
@@ -106,12 +115,19 @@ export const Index = () => {
             setVelocity(14);
             setMoveToPoint(new Vector3(curCheckpoint.position.x, -0.7, curCheckpoint.position.z));
         }
+        setCurLevel(1)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         setCharacterRef(characterRef)
     }, [characterRef, setCharacterRef])
+
+    useEffect(() => {
+        if (storeRewards) {
+            setAvailableRewards(rewards.filter(reward => !storeRewards.some(stored => stored.id === reward.id)))
+        }
+    }, [storeRewards])
 
     return (
         <>
@@ -126,7 +142,7 @@ export const Index = () => {
                 castShadow />
 
             <KeyboardControls map={keyboardMap}>
-                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-5} animated>
+                <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-6} animated>
                     <EcctrlAnimation
                         characterURL={characterURL}
                         animationSet={animationSet}
@@ -169,7 +185,7 @@ export const Index = () => {
 
             {!loading &&
                 <>
-                    <CharacterController position={[0,0,50]} moveSpeed={0.2}>
+                    {/* <CharacterController position={[0,0,50]} moveSpeed={0.2}>
                         <Demon />
                     </CharacterController>
 
@@ -187,7 +203,7 @@ export const Index = () => {
 
                     <CharacterController position={[-80 ,0, 10]} damage={15} moveSpeed={0.1}>
                         <Pigman scale={5}/>
-                    </CharacterController>
+                    </CharacterController> */}
 
                     {
                         (bullets).map((bullet: TypeBullet, index: number) => (
@@ -200,15 +216,16 @@ export const Index = () => {
                         ))
                     }
 
-                    {/* {
-                        (rewards).map((reward: Reward) => (
+                    {
+                        (availableRewards).map((reward: Reward) => (
                             <Cross
                                 scale={0.5}
                                 key={reward.id}
+                                reward={reward}
                                 position={reward.position}
                             />
                         ))
-                    } */}
+                    }
                 </>
             }
 
