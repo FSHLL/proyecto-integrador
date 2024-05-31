@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined, GoogleOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Divider, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 // import appFirebase from './firebaseConfig';
@@ -76,6 +76,10 @@ export const Login = () => {
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" className="login-form-button">
                         {registered? "Sign up" : "Log in"}
+                    </Button>
+                    <Divider/>
+                    <Button onClick={() => navigate('game')} block type="primary" htmlType="submit" className="login-form-button">
+                        Continuar como invitado
                     </Button>
                     {registered? <p></p> : <Button onClick={onClick} block className="btn btn-info" id="googleLogin" style={{border: '3px solid gray', marginTop: '20px'}}>
                         <GoogleOutlined/> Google
