@@ -5,8 +5,6 @@ import { Outlet } from "react-router-dom";
 import { Health } from "@/components/Health";
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "@/firebase";
-// @ts-expect-error No Types for Ecctrl
-import { EcctrlJoystick } from "ecctrl";
 
 export const Game = () => {
   const [user, setUser] = useState<User>();
@@ -25,12 +23,6 @@ export const Game = () => {
       <div style={{position: 'absolute', marginLeft: '10px', color: 'white', zIndex: '999'}}>
         {user? <p>{user.email}</p>:<p>Sin iniciar sesión</p>}
       </div>
-      <EcctrlJoystick joystickPositionLeft={-50} buttonNumber={2}>
-        <ambientLight />
-        <mesh>
-          <boxGeometry args={[1,1,1]} />
-        </mesh>
-      </EcctrlJoystick>
       <Canvas shadows camera={{ fov: 30 }}>
         <Suspense>
           <Physics>
