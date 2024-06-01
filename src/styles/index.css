@@ -77,3 +77,16 @@ button:focus-visible {
   bottom: 30px;
   left: 30px;
 }
+
+.controlKeys {
+  position: absolute;
+  width: 20rem;
+  left: 50%;
+  margin-left: -10rem;
+  bottom: 13%;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
