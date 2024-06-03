@@ -153,7 +153,7 @@ export const Index = () => {
 
     useEffect(() => {
         if (storeRewards) {
-            const r = rewards.filter(reward => reward.level === 2)
+            const r = rewards.filter(reward => reward.level === 3)
             setAvailableRewards(r.filter(reward => !storeRewards.some(stored => stored.id === reward.id)))
         }
     }, [storeRewards])
@@ -221,10 +221,10 @@ export const Index = () => {
                 </>
             }
 
-            <Checkpoint id={1} level={2} position={new Vector3(-70, -0.5, 7)} onCollision={inCheckpoint} />
-            <Checkpoint id={2} level={2} position={new Vector3(-45, 4.8, 40)} onCollision={inCheckpoint} />
-            <Checkpoint id={3} level={2} position={new Vector3(30, 2.2, 75)} onCollision={inCheckpoint} />
-            <Checkpoint id={4} level={2} position={new Vector3(65, 20, 127)} onCollision={inCheckpoint} />
+            <Checkpoint id={1} level={3} position={new Vector3(-70, -0.5, 7)} onCollision={inCheckpoint} />
+            <Checkpoint id={2} level={3} position={new Vector3(-45, 4.8, 40)} onCollision={inCheckpoint} />
+            <Checkpoint id={3} level={3} position={new Vector3(30, 2.2, 75)} onCollision={inCheckpoint} />
+            <Checkpoint id={4} level={3} position={new Vector3(65, 20, 127)} onCollision={inCheckpoint} />
 
             {/* <Recompense id={1} level={2} position={new Vector3(5, -8.4, 0)} onCollision={() => collectRecompense} />
             <Recompense id={2} level={2} position={new Vector3(5, -7.4, 20)} onCollision={() => collectRecompense} /> */}
