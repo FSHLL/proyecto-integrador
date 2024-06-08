@@ -98,26 +98,26 @@ export const Index = () => {
 
   const onAttack = (position?: Vector) => {
     setTimeout(() => {
-        launchBullet(position);
+      launchBullet(position);
     }, 1000);
-};
+  };
 
-const launchBullet = (position?: Vector) => {
+  const launchBullet = (position?: Vector) => {
     const demonPosition = position;
-    const characterPosition = characterRef.current?.translation()
+    const characterPosition = characterRef.current?.translation();
 
     if (demonPosition && characterPosition) {
-        const bulletPosition = demonPosition;
+      const bulletPosition = demonPosition;
 
-        const direction = direction2Points(characterPosition, demonPosition)
-        const bulletAngle = Math.atan2(direction.x, direction.z);
+      const direction = direction2Points(characterPosition, demonPosition);
+      const bulletAngle = Math.atan2(direction.x, direction.z);
 
-        const bullet = {
-            id: (new Date()).toTimeString(),
-            position: vec3(bulletPosition),
-            angle: bulletAngle,
-        };
-        setBullets((bullets) => [...bullets, bullet]);
+      const bullet = {
+        id: new Date().toTimeString(),
+        position: vec3(bulletPosition),
+        angle: bulletAngle,
+      };
+      setBullets((bullets) => [...bullets, bullet]);
     }
   };
 
@@ -132,8 +132,8 @@ const launchBullet = (position?: Vector) => {
   };
 
   const inCheckpoint = () => {
-    setEcctrlMode(null)
-    setVelocity(2.5)
+    setEcctrlMode(null);
+    setVelocity(2.5);
     setLoading(false);
   };
 
@@ -226,8 +226,12 @@ const launchBullet = (position?: Vector) => {
             </mesh>
           </RigidBody>
 
-          <CharacterController attack={onAttack} position={[40, 37.7, 160]} moveSpeed={0}>
-              <Demon/>
+          <CharacterController
+            attack={onAttack}
+            position={[40, 37.7, 160]}
+            moveSpeed={0}
+          >
+            <Demon />
           </CharacterController>
 
           <CharacterController attack={launchBullet} position={[60, 10, 50]}>
@@ -237,6 +241,50 @@ const launchBullet = (position?: Vector) => {
           <CharacterController attack={launchBullet} position={[60, 10, 65]}>
             <Demon2 />
           </CharacterController>
+
+          {/* <RigidBody
+            type="fixed"
+            position={[17.8, -5, 53]}
+            colliders={"trimesh"}
+          >
+            <mesh>
+              <boxGeometry attach="geometry" args={[0.5, 5, 110]} />
+              <meshStandardMaterial opacity={1} transparent />
+            </mesh>
+          </RigidBody>
+
+          <RigidBody
+            type="fixed"
+            position={[-80.7, -5, 53]}
+            colliders={"trimesh"}
+          >
+            <mesh>
+              <boxGeometry attach="geometry" args={[0.5, 5, 110]} />
+              <meshStandardMaterial opacity={1} transparent />
+            </mesh>
+          </RigidBody>
+
+          <RigidBody
+            type="fixed"
+            position={[-27, -5, -1.7]}
+            colliders={"trimesh"}
+          >
+            <mesh>
+              <boxGeometry attach="geometry" args={[110, 5, 0.5]} />
+              <meshStandardMaterial opacity={1} transparent />
+            </mesh>
+          </RigidBody>
+
+          <RigidBody
+            type="fixed"
+            position={[-27, -5, 97.8]}
+            colliders={"trimesh"}
+          >
+            <mesh>
+              <boxGeometry attach="geometry" args={[110, 5, 0.5]} />
+              <meshStandardMaterial opacity={1} transparent />
+            </mesh>
+          </RigidBody> */}
 
           <RigidBody
             ref={water1}
@@ -260,9 +308,9 @@ const launchBullet = (position?: Vector) => {
 
           <CaimanCharacterController
             attack={(position) => {
-                console.log('balls', position, caiman.current?.translation());
-                position.y = -4
-                setWaterBalls((balls) => [...balls, vec3(position)]);
+              console.log("balls", position, caiman.current?.translation());
+              position.y = -4;
+              setWaterBalls((balls) => [...balls, vec3(position)]);
             }}
             death={() => setBoosDeath(true)}
             moveSpeed={0.05}
@@ -301,13 +349,32 @@ const launchBullet = (position?: Vector) => {
             />
           ))}
         </>
-
       )}
 
-      <Checkpoint id={1} level={3} position={new Vector3(-70, -0.5, 7)} onCollision={inCheckpoint} />
-      <Checkpoint id={2} level={3} position={new Vector3(-45, 4.8, 40)} onCollision={inCheckpoint} />
-      <Checkpoint id={3} level={3} position={new Vector3(30, 2.2, 75)} onCollision={inCheckpoint} />
-      <Checkpoint id={4} level={3} position={new Vector3(65, 20, 127)} onCollision={inCheckpoint} />
+      <Checkpoint
+        id={1}
+        level={3}
+        position={new Vector3(-70, -0.5, 7)}
+        onCollision={inCheckpoint}
+      />
+      <Checkpoint
+        id={2}
+        level={3}
+        position={new Vector3(-45, 4.8, 40)}
+        onCollision={inCheckpoint}
+      />
+      <Checkpoint
+        id={3}
+        level={3}
+        position={new Vector3(30, 2.2, 75)}
+        onCollision={inCheckpoint}
+      />
+      <Checkpoint
+        id={4}
+        level={3}
+        position={new Vector3(65, 20, 127)}
+        onCollision={inCheckpoint}
+      />
 
       <Html>
         <LoadingScreen loading={loading} setLoading={setLoading} />
