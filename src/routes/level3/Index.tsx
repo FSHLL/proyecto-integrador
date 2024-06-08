@@ -44,6 +44,9 @@ import { Caiman } from "@/models/Caiman";
 import { Ocean } from "@/components/Ocean";
 import { CaimanCharacterController } from "@/components/CaimanCharacterController";
 import { CircleOfSpheres } from "@/components/CircleOfSpheres";
+import Checkpoint from "@/components/Checkpoint";
+import { direction2Points } from "@/helpers/distance";
+import { Demon2 } from "@/models/Demon2";
 // import { rewards } from "./rewards";
 // import { Reward } from "@/Interfaces/Reward";
 // import { Cross } from "@/models/Cross";
@@ -93,26 +96,30 @@ export const Index = () => {
 
   const [boosDeath, setBoosDeath] = useState(false);
 
-  // const launchBullet = (position?: Vector) => {
-  //     const demonPosition = position;
-  //     const characterPosition = characterRef.current?.translation()
+  const onAttack = (position?: Vector) => {
+    setTimeout(() => {
+        launchBullet(position);
+    }, 1000);
+};
 
-  //     if (demonPosition && characterPosition) {
-  //         const bulletPosition = demonPosition;
+const launchBullet = (position?: Vector) => {
+    const demonPosition = position;
+    const characterPosition = characterRef.current?.translation()
 
-  //         const direction = direction2Points(characterPosition, demonPosition)
+    if (demonPosition && characterPosition) {
+        const bulletPosition = demonPosition;
 
-  //         const bulletAngle = Math.atan2(direction.x, direction.z);
+        const direction = direction2Points(characterPosition, demonPosition)
+        const bulletAngle = Math.atan2(direction.x, direction.z);
 
-  //         const bullet = {
-  //             id: (new Date()).toTimeString(),
-  //             position: vec3(bulletPosition),
-  //             angle: bulletAngle,
-  //         };
-
-  //         setBullets((bullets) => [...bullets, bullet]);
-  //     }
-  // };
+        const bullet = {
+            id: (new Date()).toTimeString(),
+            position: vec3(bulletPosition),
+            angle: bulletAngle,
+        };
+        setBullets((bullets) => [...bullets, bullet]);
+    }
+  };
 
   const onHit = (bulletId: string) => {
     setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
@@ -122,6 +129,12 @@ export const Index = () => {
     if (name === "w1") {
       setWaterBalls((balls) => [...balls, vec3(caiman.current?.translation())]);
     }
+  };
+
+  const inCheckpoint = () => {
+    setEcctrlMode(null)
+    setVelocity(2.5)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -213,9 +226,17 @@ export const Index = () => {
             </mesh>
           </RigidBody>
 
-          {/* <CharacterController position={[0,50,50]} moveSpeed={0.2}>
-                        <Demon />
-                    </CharacterController> */}
+          <CharacterController attack={onAttack} position={[40, 37.7, 160]} moveSpeed={0}>
+              <Demon/>
+          </CharacterController>
+
+          <CharacterController attack={launchBullet} position={[60, 10, 50]}>
+            <Demon2 />
+          </CharacterController>
+
+          <CharacterController attack={launchBullet} position={[60, 10, 65]}>
+            <Demon2 />
+          </CharacterController>
 
           <RigidBody
             ref={water1}
@@ -280,7 +301,13 @@ export const Index = () => {
             />
           ))}
         </>
+
       )}
+
+      <Checkpoint id={1} level={3} position={new Vector3(-70, -0.5, 7)} onCollision={inCheckpoint} />
+      <Checkpoint id={2} level={3} position={new Vector3(-45, 4.8, 40)} onCollision={inCheckpoint} />
+      <Checkpoint id={3} level={3} position={new Vector3(30, 2.2, 75)} onCollision={inCheckpoint} />
+      <Checkpoint id={4} level={3} position={new Vector3(65, 20, 127)} onCollision={inCheckpoint} />
 
       <Html>
         <LoadingScreen loading={loading} setLoading={setLoading} />
