@@ -36,6 +36,8 @@ export function Cross(props: CrossProps) {
 
   const { rewards, addReword } = useGame()
 
+  const win = new Audio(`${window.location.origin}/sounds/win.mp3`)
+
   useFrame(() => {
     if (group?.current && characterRef?.current) {
       const distance = distance2Points(
@@ -47,6 +49,7 @@ export function Cross(props: CrossProps) {
           const reward = rewards.find(r => r.id === props.reward?.id && r.level === props.reward?.level)
           if (!reward) {
             addReword(props.reward)
+            win.play()
           }
         }
       }

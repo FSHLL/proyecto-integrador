@@ -173,14 +173,6 @@ export const Index = () => {
             {!loading &&
                 <RigidBody type="fixed" colliders={"trimesh"} ccd>
                     <Map1 position={[-42, -10, 37]}/>
-                    <mesh
-                        rotation={[-0.5 * Math.PI, 0, 0]}
-                        position={[0, 0, 0]}
-                        receiveShadow
-                    >
-                        <planeGeometry args={[0, 0, 1, 1]}/>
-                        <shadowMaterial transparent opacity={0.2} />
-                    </mesh>
                 </RigidBody>
             }
 
@@ -219,6 +211,34 @@ export const Index = () => {
                     <CharacterController position={[-65, -4.4, 92]} moveSpeed={0.1}>
                         <Demon />
                     </CharacterController>
+
+                    <RigidBody type="fixed" position={[17.8, -5, 53]}colliders={"trimesh"}>
+                        <mesh>
+                            <boxGeometry attach="geometry" args={[0.5, 5, 110]} />
+                            <meshStandardMaterial opacity={0.0} transparent />
+                        </mesh>
+                    </RigidBody>
+
+                    <RigidBody type="fixed" position={[-80.7, -5, 53]}colliders={"trimesh"}>
+                        <mesh>
+                            <boxGeometry attach="geometry" args={[0.5, 5, 110]} />
+                            <meshStandardMaterial  opacity={0.0} transparent />
+                        </mesh>
+                    </RigidBody>
+
+                    <RigidBody type="fixed" position={[-27, -5, -1.7]}colliders={"trimesh"}>
+                        <mesh>
+                            <boxGeometry attach="geometry" args={[110, 5, 0.5]} />
+                            <meshStandardMaterial opacity={0.0} transparent />
+                        </mesh>
+                    </RigidBody>
+
+                    <RigidBody type="fixed" position={[-27, -5, 97.8]}colliders={"trimesh"}>
+                        <mesh>
+                            <boxGeometry attach="geometry" args={[110, 5, 0.5]} />
+                            <meshStandardMaterial opacity={0.0} transparent />
+                        </mesh>
+                    </RigidBody>
                    
                     {showPigman &&
                         <CharacterController death={death} position={[-80 ,0, 10]} damage={15} moveSpeed={0.1}>
