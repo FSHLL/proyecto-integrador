@@ -102,74 +102,199 @@ export function Map3(props: JSX.IntrinsicElements['group']) {
   return (
     <>
       <group {...props} dispose={null}>
-        <mesh receiveShadow geometry={nodes.Cube.geometry} material={materials['Material.001']} />
-        <group position={[-6.553, -30.506, -6.12]}>
-          <mesh receiveShadow geometry={nodes.Cylinder.geometry} material={materials.Tree5_Leaves2} />
-          <mesh receiveShadow geometry={nodes.Cylinder_1.geometry} material={materials.Tree5_Leaves1} />
-          <mesh receiveShadow geometry={nodes.Cylinder_2.geometry} material={materials.Tree5_Trunk} />
+      <group>
+        <group position={[-21.32, 4.405, -1.911]}>
+          <mesh geometry={nodes.Cylinder.geometry} material={materials.Tree5_Leaves2} />
+          <mesh geometry={nodes.Cylinder_1.geometry} material={materials.Tree5_Leaves1} />
+          <mesh geometry={nodes.Cylinder_2.geometry} material={materials.Tree5_Trunk} />
         </group>
-        <group position={[-8.205, -22.991, -7.609]}>
-          <mesh receiveShadow geometry={nodes.Cone007.geometry} material={materials.Tree4_Leaves1} />
-          <mesh receiveShadow geometry={nodes.Cone007_1.geometry} material={materials.Tree4_Leaves2} />
-          <mesh receiveShadow geometry={nodes.Cone007_2.geometry} material={materials.Tree4_Trunk} />
+        <group position={[32.017, -6.354, 6.742]}>
+          <mesh geometry={nodes.Cone007.geometry} material={materials.Tree4_Leaves1} />
+          <mesh geometry={nodes.Cone007_1.geometry} material={materials.Tree4_Leaves2} />
+          <mesh geometry={nodes.Cone007_2.geometry} material={materials.Tree4_Trunk} />
         </group>
-        <group position={[-0.202, -2.61, -0.514]}>
-          <mesh receiveShadow geometry={nodes.Cone002.geometry} material={materials.Tree3_Leaves1} />
-          <mesh receiveShadow geometry={nodes.Cone002_1.geometry} material={materials.Tree3_Trunk} />
+        <group position={[140.492, 2.11, 41.317]}>
+          <mesh geometry={nodes.Cone002.geometry} material={materials.Tree3_Leaves1} />
+          <mesh geometry={nodes.Cone002_1.geometry} material={materials.Tree3_Trunk} />
         </group>
-        <group position={[58.542, -28.925, -32.548]}>
-          <mesh receiveShadow geometry={nodes.Icosphere030.geometry} material={materials.Tree2_Leaves1} />
-          <mesh receiveShadow geometry={nodes.Icosphere030_1.geometry} material={materials.Tree2_Leaves2} />
-          <mesh receiveShadow geometry={nodes.Icosphere030_2.geometry} material={materials.Tree2_Leaves3} />
-          <mesh receiveShadow geometry={nodes.Icosphere030_3.geometry} material={materials.Tree2_Trunk} />
+        <group position={[1.401, 6.558, 19.618]}>
+          <mesh geometry={nodes.Icosphere030.geometry} material={materials.Tree2_Leaves1} />
+          <mesh geometry={nodes.Icosphere030_1.geometry} material={materials.Tree2_Leaves2} />
+          <mesh geometry={nodes.Icosphere030_2.geometry} material={materials.Tree2_Leaves3} />
+          <mesh geometry={nodes.Icosphere030_3.geometry} material={materials.Tree2_Trunk} />
         </group>
-        <group position={[1.405, -14.282, 2.96]}>
-          <mesh receiveShadow geometry={nodes.Icosphere003.geometry} material={materials.Tree1_Leaves1} />
-          <mesh receiveShadow geometry={nodes.Icosphere003_1.geometry} material={materials.Tree1_Leaves2} />
-          <mesh receiveShadow geometry={nodes.Icosphere003_2.geometry} material={materials.Tree1_Trunk} />
+        <group position={[16.102, 8.456, -34.233]}>
+          <mesh geometry={nodes.Icosphere003.geometry} material={materials.Tree1_Leaves1} />
+          <mesh geometry={nodes.Icosphere003_1.geometry} material={materials.Tree1_Leaves2} />
+          <mesh geometry={nodes.Icosphere003_2.geometry} material={materials.Tree1_Trunk} />
         </group>
-        <group position={[6.326, -23.282, 2.888]}>
-          <mesh receiveShadow geometry={nodes.Cone001.geometry} material={materials['Tree4_Leaves1.001']} />
-          <mesh receiveShadow geometry={nodes.Cone001_1.geometry} material={materials['Tree4_Leaves2.001']} />
-          <mesh receiveShadow geometry={nodes.Cone001_2.geometry} material={materials['Tree4_Trunk.001']} />
+        <group position={[-29.331, -9.414, 38.299]}>
+          <mesh geometry={nodes.Cone001.geometry} material={materials['Tree4_Leaves1.001']} />
+          <mesh geometry={nodes.Cone001_1.geometry} material={materials['Tree4_Leaves2.001']} />
+          <mesh geometry={nodes.Cone001_2.geometry} material={materials['Tree4_Trunk.001']} />
         </group>
-        <group position={[0.413, -14.664, -0.479]}>
-          <mesh receiveShadow geometry={nodes.Icosphere001.geometry} material={materials['Tree1_Leaves1.001']} />
-          <mesh receiveShadow geometry={nodes.Icosphere001_1.geometry} material={materials['Tree1_Leaves2.001']} />
-          <mesh receiveShadow geometry={nodes.Icosphere001_2.geometry} material={materials['Tree1_Trunk.001']} />
+        <group position={[1.106, 6.823, -8.689]}>
+          <mesh geometry={nodes.Icosphere001.geometry} material={materials['Tree1_Leaves1.001']} />
+          <mesh
+            geometry={nodes.Icosphere001_1.geometry}
+            material={materials['Tree1_Leaves2.001']}
+          />
+          <mesh geometry={nodes.Icosphere001_2.geometry} material={materials['Tree1_Trunk.001']} />
         </group>
-        <group position={[6.96, -25.75, 1.891]}>
-          <mesh receiveShadow geometry={nodes.Icosphere002.geometry} material={materials['Tree2_Leaves1.001']} />
-          <mesh receiveShadow geometry={nodes.Icosphere002_1.geometry} material={materials['Tree2_Leaves2.001']} />
-          <mesh receiveShadow geometry={nodes.Icosphere002_2.geometry} material={materials['Tree2_Leaves3.001']} />
-          <mesh receiveShadow geometry={nodes.Icosphere002_3.geometry} material={materials['Tree2_Trunk.001']} />
+        <group position={[15.758, 9.568, 2.244]}>
+          <mesh geometry={nodes.Icosphere002.geometry} material={materials['Tree2_Leaves1.001']} />
+          <mesh
+            geometry={nodes.Icosphere002_1.geometry}
+            material={materials['Tree2_Leaves2.001']}
+          />
+          <mesh
+            geometry={nodes.Icosphere002_2.geometry}
+            material={materials['Tree2_Leaves3.001']}
+          />
+          <mesh geometry={nodes.Icosphere002_3.geometry} material={materials['Tree2_Trunk.001']} />
         </group>
-        <group position={[5.628, -32.958, 6.42]}>
-          <mesh receiveShadow geometry={nodes.Cylinder001.geometry} material={materials['Tree5_Leaves2.001']} />
-          <mesh receiveShadow geometry={nodes.Cylinder001_1.geometry} material={materials['Tree5_Leaves1.001']} />
-          <mesh receiveShadow geometry={nodes.Cylinder001_2.geometry} material={materials['Tree5_Trunk.001']} />
+        <group position={[-186.677, 5.053, 53]} scale={1.126}>
+          <mesh geometry={nodes.Cylinder001.geometry} material={materials['Tree5_Leaves2.001']} />
+          <mesh geometry={nodes.Cylinder001_1.geometry} material={materials['Tree5_Leaves1.001']} />
+          <mesh geometry={nodes.Cylinder001_2.geometry} material={materials['Tree5_Trunk.001']} />
         </group>
-        <group position={[-0.022, -7, -0.977]}>
-          <mesh receiveShadow geometry={nodes.Cone003.geometry} material={materials['Tree3_Leaves1.001']} />
-          <mesh receiveShadow geometry={nodes.Cone003_1.geometry} material={materials['Tree3_Trunk.001']} />
+        <group position={[52.517, 0.469, -33.365]}>
+          <mesh geometry={nodes.Cone003.geometry} material={materials['Tree3_Leaves1.001']} />
+          <mesh geometry={nodes.Cone003_1.geometry} material={materials['Tree3_Trunk.001']} />
         </group>
-        <group position={[7.818, -34.443, -8.949]}>
-          <mesh receiveShadow geometry={nodes.Icosphere004.geometry} material={materials['Tree1_Leaves1.002']} />
-          <mesh receiveShadow geometry={nodes.Icosphere004_1.geometry} material={materials['Tree1_Leaves2.002']} />
-          <mesh receiveShadow geometry={nodes.Icosphere004_2.geometry} material={materials['Tree1_Trunk.002']} />
+        <group position={[11.646, 6.222, -9.027]}>
+          <mesh geometry={nodes.Icosphere004.geometry} material={materials['Tree1_Leaves1.002']} />
+          <mesh
+            geometry={nodes.Icosphere004_1.geometry}
+            material={materials['Tree1_Leaves2.002']}
+          />
+          <mesh geometry={nodes.Icosphere004_2.geometry} material={materials['Tree1_Trunk.002']} />
         </group>
-        <group position={[4.583, -32.581, -13.427]}>
-          <mesh receiveShadow geometry={nodes.Icosphere005.geometry} material={materials['Tree2_Leaves1.002']} />
-          <mesh receiveShadow geometry={nodes.Icosphere005_1.geometry} material={materials['Tree2_Leaves2.002']} />
-          <mesh receiveShadow geometry={nodes.Icosphere005_2.geometry} material={materials['Tree2_Leaves3.002']} />
-          <mesh receiveShadow geometry={nodes.Icosphere005_3.geometry} material={materials['Tree2_Trunk.002']} />
+        <group position={[0.346, 5.096, 7.261]}>
+          <mesh geometry={nodes.Icosphere005.geometry} material={materials['Tree2_Leaves1.002']} />
+          <mesh
+            geometry={nodes.Icosphere005_1.geometry}
+            material={materials['Tree2_Leaves2.002']}
+          />
+          <mesh
+            geometry={nodes.Icosphere005_2.geometry}
+            material={materials['Tree2_Leaves3.002']}
+          />
+          <mesh geometry={nodes.Icosphere005_3.geometry} material={materials['Tree2_Trunk.002']} />
         </group>
-        <group position={[-6.753, -32.273, -6.802]}>
-          <mesh receiveShadow geometry={nodes.Cone004.geometry} material={materials['Tree3_Leaves1.002']} />
-          <mesh receiveShadow geometry={nodes.Cone004_1.geometry} material={materials['Tree3_Trunk.002']} />
+        <group position={[-16.535, -0.779, 48.281]}>
+          <mesh geometry={nodes.Cone004.geometry} material={materials['Tree3_Leaves1.002']} />
+          <mesh geometry={nodes.Cone004_1.geometry} material={materials['Tree3_Trunk.002']} />
         </group>
-        <mesh receiveShadow geometry={nodes.montaña.geometry} material={materials['Material.002']} position={[36.121, -6.579, 85.795]} rotation={[0.764, -1.564, 0.77]} scale={[14.868, 28.348, 31.441]} />
+        <group position={[44.204, 6.688, 18.88]}>
+          <mesh geometry={nodes.Icosphere006.geometry} material={materials['Tree2_Leaves1.003']} />
+          <mesh
+            geometry={nodes.Icosphere006_1.geometry}
+            material={materials['Tree2_Leaves2.003']}
+          />
+          <mesh
+            geometry={nodes.Icosphere006_2.geometry}
+            material={materials['Tree2_Leaves3.003']}
+          />
+          <mesh geometry={nodes.Icosphere006_3.geometry} material={materials['Tree2_Trunk.003']} />
+        </group>
+        <group position={[-4.445, 15.832, 117.421]}>
+          <mesh geometry={nodes.Icosphere007.geometry} material={materials['Tree2_Leaves1.004']} />
+          <mesh
+            geometry={nodes.Icosphere007_1.geometry}
+            material={materials['Tree2_Leaves2.004']}
+          />
+          <mesh
+            geometry={nodes.Icosphere007_2.geometry}
+            material={materials['Tree2_Leaves3.004']}
+          />
+          <mesh geometry={nodes.Icosphere007_3.geometry} material={materials['Tree2_Trunk.004']} />
+        </group>
+        <group position={[76.774, 2.655, 45.376]}>
+          <mesh geometry={nodes.Icosphere008.geometry} material={materials['Tree2_Leaves1.005']} />
+          <mesh
+            geometry={nodes.Icosphere008_1.geometry}
+            material={materials['Tree2_Leaves2.005']}
+          />
+          <mesh
+            geometry={nodes.Icosphere008_2.geometry}
+            material={materials['Tree2_Leaves3.005']}
+          />
+          <mesh geometry={nodes.Icosphere008_3.geometry} material={materials['Tree2_Trunk.005']} />
+        </group>
+        <group position={[27.111, -1.635, 38.8]}>
+          <mesh geometry={nodes.Cone005.geometry} material={materials['Tree4_Leaves1.002']} />
+          <mesh geometry={nodes.Cone005_1.geometry} material={materials['Tree4_Leaves2.002']} />
+          <mesh geometry={nodes.Cone005_2.geometry} material={materials['Tree4_Trunk.002']} />
+        </group>
+        <group position={[95.535, 9.208, 58.148]}>
+          <mesh geometry={nodes.Icosphere009.geometry} material={materials['Tree2_Leaves1.006']} />
+          <mesh
+            geometry={nodes.Icosphere009_1.geometry}
+            material={materials['Tree2_Leaves2.006']}
+          />
+          <mesh
+            geometry={nodes.Icosphere009_2.geometry}
+            material={materials['Tree2_Leaves3.006']}
+          />
+          <mesh geometry={nodes.Icosphere009_3.geometry} material={materials['Tree2_Trunk.006']} />
+        </group>
+        <group position={[106.084, 13.721, 83.953]}>
+          <mesh geometry={nodes.Cylinder003.geometry} material={materials['Tree5_Leaves2.002']} />
+          <mesh geometry={nodes.Cylinder003_1.geometry} material={materials['Tree5_Leaves1.002']} />
+          <mesh geometry={nodes.Cylinder003_2.geometry} material={materials['Tree5_Trunk.002']} />
+        </group>
+        <group position={[39.252, 21.484, 107.444]}>
+          <mesh geometry={nodes.Cylinder004.geometry} material={materials['Tree5_Leaves2.003']} />
+          <mesh geometry={nodes.Cylinder004_1.geometry} material={materials['Tree5_Leaves1.003']} />
+          <mesh geometry={nodes.Cylinder004_2.geometry} material={materials['Tree5_Trunk.003']} />
+        </group>
+        <group position={[21.662, -2.152, -40.263]}>
+          <mesh geometry={nodes.Cone006.geometry} material={materials['Tree3_Leaves1.003']} />
+          <mesh geometry={nodes.Cone006_1.geometry} material={materials['Tree3_Trunk.003']} />
+        </group>
+        <group position={[100.413, 5.522, -85.884]}>
+          <mesh geometry={nodes.Cone008.geometry} material={materials['Tree3_Leaves1.004']} />
+          <mesh geometry={nodes.Cone008_1.geometry} material={materials['Tree3_Trunk.004']} />
+        </group>
+        <group position={[50.944, 14.204, 129.161]}>
+          <mesh geometry={nodes.Cylinder005.geometry} material={materials['Tree5_Leaves2.004']} />
+          <mesh geometry={nodes.Cylinder005_1.geometry} material={materials['Tree5_Leaves1.004']} />
+          <mesh geometry={nodes.Cylinder005_2.geometry} material={materials['Tree5_Trunk.004']} />
+        </group>
+        <group position={[77.793, 19.406, 104.373]}>
+          <mesh geometry={nodes.Icosphere010.geometry} material={materials['Tree2_Leaves1.007']} />
+          <mesh
+            geometry={nodes.Icosphere010_1.geometry}
+            material={materials['Tree2_Leaves2.007']}
+          />
+          <mesh
+            geometry={nodes.Icosphere010_2.geometry}
+            material={materials['Tree2_Leaves3.007']}
+          />
+          <mesh geometry={nodes.Icosphere010_3.geometry} material={materials['Tree2_Trunk.007']} />
+        </group>
+        <group position={[-69.616, 16.002, 107.227]} scale={1.126}>
+          <mesh geometry={nodes.Cylinder006.geometry} material={materials['Tree5_Leaves2.005']} />
+          <mesh geometry={nodes.Cylinder006_1.geometry} material={materials['Tree5_Leaves1.005']} />
+          <mesh geometry={nodes.Cylinder006_2.geometry} material={materials['Tree5_Trunk.005']} />
+        </group>
+        <group position={[94.816, -3.264, -142.364]}>
+          <mesh geometry={nodes.Cone009.geometry} material={materials['Tree4_Leaves1.003']} />
+          <mesh geometry={nodes.Cone009_1.geometry} material={materials['Tree4_Leaves2.003']} />
+          <mesh geometry={nodes.Cone009_2.geometry} material={materials['Tree4_Trunk.003']} />
+        </group>
+        <group position={[149.198, 5.804, 49.278]}>
+          <mesh geometry={nodes.Icosphere011.geometry} material={materials['Tree1_Leaves1.003']} />
+          <mesh
+            geometry={nodes.Icosphere011_1.geometry}
+            material={materials['Tree1_Leaves2.003']}
+          />
+          <mesh geometry={nodes.Icosphere011_2.geometry} material={materials['Tree1_Trunk.003']} />
+        </group>
+        <mesh geometry={nodes.Cube001.geometry} material={materials['Material.002']} />
       </group>
+    </group>
     </>
   )
 }
