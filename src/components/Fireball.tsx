@@ -22,7 +22,7 @@ const WEAPON_OFFSET = {
 // Colores para el gradiente
 const gradientColors = ["#FF4500", "#FFA500", "#FFFF00"];
 
-export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
+export const Fireball = ({ id, angle, position, onHit }: BulletProps) => {
     const rigidBody = useRef<RapierRigidBody>(null);
 
     const doDamage = useHealth((state) => state.doDamage)
@@ -45,7 +45,7 @@ export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
 
     // Material con el gradiente de color
     const bulletMaterial = new MeshBasicMaterial({
-        color: bulletColor,
+        color: "orange",
         toneMapped: false,
         transparent: true,
         opacity: 0.8
@@ -71,7 +71,7 @@ export const Bullet = ({ id, angle, position, onHit }: BulletProps) => {
                     sensor
                 >
                     <mesh position-z={0.25} material={bulletMaterial} castShadow>
-                        <sphereGeometry args={[0.1, 16, 16]} />
+                        <sphereGeometry args={[0.2, 16, 16]} />
                     </mesh>
                 </RigidBody>
             </group>

@@ -23,6 +23,7 @@ import { useCharacter } from "@/stores/useCharacter";
 import { direction2Points } from "@/helpers/distance";
 import { Bullet as TypeBullet } from "@/Interfaces/Bullet";
 import { Bullet } from "@/components/Bullet";
+import { Fireball } from "@/components/Fireball";
 import { CharacterController } from "@/components/CharacterController";
 import { Demon2 } from "@/models/Demon2";
 // import { NextLevel } from "@/components/NextLevel";
@@ -204,23 +205,6 @@ export const Index = () => {
                 </RigidBody>
             }
 
-            {!loading && // Agregar la condición para mostrar demon2
-                <>
-                    <CharacterController attack={onAttack} position={[30, 37.7, 160]} moveSpeed={0}>
-                        <Demon2 rigidBodyRef={demon2Ref} characterRef={characterRef}/>
-                    </CharacterController>
-
-                    {(bullets).map((bullet: TypeBullet, index: number) => (
-                        <Bullet
-                            key={index}
-                            id={bullet.id}
-                            angle={bullet.angle}
-                            position={bullet.position}
-                            onHit={onHit} />
-                    ))}
-                </>
-            }
-
             <Checkpoint id={1} level={2} position={new Vector3(90, -4.4, 20)} onCollision={inCheckpoint} />
             <Checkpoint id={2} level={2} position={new Vector3(30, 0, 80)} onCollision={inCheckpoint} />
             <Checkpoint id={3} level={2} position={new Vector3(-90, 9.4, 130)} onCollision={inCheckpoint} />
@@ -229,24 +213,21 @@ export const Index = () => {
             {/* <Recompense id={1} level={2} position={new Vector3(5, -8.4, 0)} onCollision={() => collectRecompense} />
             <Recompense id={2} level={2} position={new Vector3(5, -7.4, 20)} onCollision={() => collectRecompense} /> */}
 
-            <CharacterController attack={launchBullet} position={[60, 10, 50]}>
-                <Demon2 />
-            </CharacterController>
+            <CharacterController attack={launchBullet} position={[60, 10, 50]} moveSpeed={0}>
+                        <Demon2/>
+                    </CharacterController>
 
-            <CharacterController attack={launchBullet} position={[60, 10, 60]}>
-                <Demon2 />
-            </CharacterController>
+            <CharacterController attack={launchBullet} position={[60, 10, 60]} moveSpeed={0}>
+                        <Demon2/>
+                    </CharacterController>
 
-            {
-                (availableRewards).map((reward: Reward) => (
-                    <Cross
-                        scale={0.5}
-                        key={reward.id}
-                        reward={reward}
-                        position={reward.position}
-                    />
-                ))
-            }
+            <CharacterController attack={launchBullet} position={[40, 40, 140]} moveSpeed={0}>
+                        <Demon2/>
+                    </CharacterController>
+
+            <CharacterController attack={launchBullet} position={[40, 40, 170]} moveSpeed={0}>
+                        <Demon2/>
+                    </CharacterController>
 
             {
                 (bullets).map((bullet: TypeBullet, index: number) => (
@@ -256,6 +237,17 @@ export const Index = () => {
                         angle={bullet.angle}
                         position={bullet.position}
                         onHit={onHit} />
+                ))
+            }
+
+            {
+                (availableRewards).map((reward: Reward) => (
+                    <Cross
+                        scale={0.5}
+                        key={reward.id}
+                        reward={reward}
+                        position={reward.position}
+                    />
                 ))
             }
 
