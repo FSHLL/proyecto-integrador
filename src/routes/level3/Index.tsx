@@ -7,7 +7,7 @@ import { animationSet, keyboardMap } from '../../constants/joystick';
 import { getModelPath } from '@/helpers/path';
 import { useEffect, useRef, useState } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
-import { Map1 } from "@/models/Map1";
+import { Map3 } from "@/models/Map3";
 import { Warrior } from "@/models/Warrior";
 // import { getRandomArbitrary } from "@/helpers/random";
 // import { Trunk } from "@/components/Trunk";
@@ -140,7 +140,7 @@ export const Index = () => {
                 intensity={0.5}
                 castShadow />
 
-            <OrbitControls />
+            <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
             {/* <KeyboardControls map={keyboardMap}>
                 <Ecctrl ref={characterRef} name={player} mode={ecctrlMode} maxVelLimit={velocity} camInitDis={-6} animated>
                     <EcctrlAnimation
@@ -154,27 +154,41 @@ export const Index = () => {
                 </Ecctrl>
             </KeyboardControls> */}
 
-            {loading &&
+            {/* {!loading &&
                 <RigidBody colliders={false} type="fixed" position={[-42, -6, 37]}>
                     <CylinderCollider args={[0.5, 1000]} />
                     <Cylinder scale={[1000, 1, 1000]} receiveShadow>
-                        {/* <meshStandardMaterial color={"transparent"} /> */}
                     </Cylinder>
                 </RigidBody>
-            }
+            } */}
 
             {!loading &&
                 <>
-                    <RigidBody colliders={false} type="fixed" position={[-42, -6, 37]}>
+                    <RigidBody colliders={false} type="fixed" position={[-0, -4.5, 187]}>
                         <Ocean />
                     </RigidBody>
 
-                    <CharacterController position={[0,50,50]} moveSpeed={0.2}>
+                    <RigidBody colliders={false} type="fixed" position={[-50, -4.5, 187]}>
+                        <Ocean />
+                    </RigidBody>
+                    
+                    <RigidBody type="fixed" colliders={"trimesh"}>
+                        <Map3 position={[0, -10, 98]}/>
+                        <mesh
+                            rotation={[-0.5 * Math.PI, 0, 0]}
+                            position={[0, 0, 0]}
+                            receiveShadow
+                        >
+                            <planeGeometry args={[0, 0, 1, 1]}/>
+                            <shadowMaterial transparent opacity={0.2} />
+                        </mesh>
+                    </RigidBody>
+
+                    {/* <CharacterController position={[0,50,50]} moveSpeed={0.2}>
                         <Demon />
-                    </CharacterController>
+                    </CharacterController> */}
 
-
-                    {/* <Caiman position={[-4,0,30]} /> */}
+                    <Caiman scale={60} position={[0, 85, 150]} />
 
                     {
                         (bullets).map((bullet: TypeBullet, index: number) => (
