@@ -10,6 +10,7 @@ import { Login } from '@/routes/Login.tsx';
 import { Index as Level1 } from '@/routes/level1/Index.tsx';
 import { Index as Level2 } from '@/routes/level2/Index.tsx';
 import { Index as Level3 } from '@/routes/level3/Index.tsx';
+import { Index as Level4 } from '@/routes/level4/Index.tsx';
 import Game from './routes/Game.tsx';
 import { Characters } from '@/routes/Characters.tsx';
 import Menu from '@/routes/Menu.tsx';
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "level3",
         element: <Level3 />,
+      },
+      {
+        path: "level4",
+        element: <Level4 />,
       },
     ],
   },

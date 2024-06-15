@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import { Health } from "@/components/Health";
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "@/firebase";
+import { SocketManager } from "@/components/SocketManager";
 
 export const Game = () => {
   const [user, setUser] = useState<User>();
@@ -23,9 +24,10 @@ export const Game = () => {
       <div style={{position: 'absolute', marginLeft: '10px', color: 'white', zIndex: '999'}}>
         {user? <p>{user.email}</p>:<p>Sin iniciar sesión</p>}
       </div>
+      <SocketManager />
       <Canvas shadows camera={{ fov: 30 }}>
         <Suspense>
-          <Physics>
+          <Physics debug>
             <Outlet />
           </Physics>
         </Suspense>

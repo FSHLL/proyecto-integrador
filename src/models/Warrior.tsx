@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { getModelPath } from '@/helpers/path'
+import { useSkinnedMeshClone } from '@/helpers/clone'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -35,7 +36,7 @@ type GLTFResult = GLTF & {
 
 export function Warrior({ withAnimations = false, ...props }: { withAnimations?: boolean }) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF(getModelPath('warrior')) as GLTFResult
+  const { nodes, materials, animations } = useSkinnedMeshClone(getModelPath('warrior')) as GLTFResult
   const { actions } = useAnimations(animations, group)
 
   useEffect(() => {
