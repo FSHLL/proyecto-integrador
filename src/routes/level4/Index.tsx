@@ -1,5 +1,6 @@
 import {
   CollisionEnterPayload,
+  CollisionExitPayload,
   CylinderCollider,
   RapierRigidBody,
   RigidBody,
@@ -8,6 +9,7 @@ import {
 // @ts-expect-error No Types for Ecctrl
 import Ecctrl, { EcctrlAnimation, useGame } from "ecctrl";
 import {
+  Box,
   Cylinder,
   Html,
   KeyboardControls,
@@ -51,13 +53,14 @@ import { Demon2 } from "@/models/Demon2";
 // import { rewards } from "./rewards";
 // import { Reward } from "@/Interfaces/Reward";
 // import { Cross } from "@/models/Cross";
-import { charactersAtom, socket } from "@/components/SocketManager";
+import { charactersAtom, crossesAtom, socket } from "@/components/SocketManager";
 import { useAtom } from "jotai";
 import { ExternalWarrior } from "@/models/ExternalWarrior";
 import { useFrame } from "@react-three/fiber";
 
 export const Index = () => {
   const [characters] = useAtom(charactersAtom);
+  const [crosses] = useAtom(crossesAtom);
 
   const characterURL = getModelPath("warrior");
 
@@ -86,6 +89,10 @@ export const Index = () => {
   const [bullets, setBullets] = useState<TypeBullet[]>([]);
 
   const [waterBalls, setWaterBalls] = useState<Vector3[]>([]);
+
+  // const [crosses, setCrosses] = useState<Vector3[]>([]);
+
+  const [canSetCross, setCanSetCross] = useState<boolean>(false);
 
   // @ts-expect-error State types unavailable
   const curAnimation = useGame((state) => state.curAnimation);
@@ -138,6 +145,30 @@ export const Index = () => {
     }
   };
 
+  const onCrossBaseCollision = (c: CollisionEnterPayload) => {
+    const position = c.target.rigidBodyObject?.position;
+    if (c.other.rigidBodyObject?.name === player && position) {
+      setCanSetCross(true);
+      if (crosses.filter((c) => vec3(c.position) === position).length === 0) {
+        setTimeout(() => {
+          setCanSetCross((prevCanSetCross) => {
+            if (prevCanSetCross) {
+              // setCrosses((prevCrosses) => [...prevCrosses, position]);
+              socket.emit('cross-positioned', position)
+            }
+            return false;
+          });
+        }, 3000);
+      }
+    }
+  };
+
+  const onCrossBaseCollisionExit = (c: CollisionExitPayload) => {
+    if (c.other.rigidBodyObject?.name === player) {
+      setCanSetCross(false);
+    }
+  };
+
   const inCheckpoint = () => {
     setEcctrlMode(null);
     setVelocity(2.5);
@@ -183,7 +214,6 @@ export const Index = () => {
     }
   }, [storeRewards]);
 
-
   useFrame(() => {
     // If any movement key is pressed, emit the player's movement data to the server
     if (
@@ -217,6 +247,7 @@ export const Index = () => {
           maxVelLimit={velocity}
           camInitDis={-6}
           animated
+          autoBalance={true}
         >
           <EcctrlAnimation
             characterURL={characterURL}
@@ -226,20 +257,6 @@ export const Index = () => {
           </EcctrlAnimation>
         </Ecctrl>
       </KeyboardControls>
-
-      {characters.filter((ch) => ch.id !== socket.id).map((character) => (
-        <ExternalWarrior
-          key={character.id}
-          id={character.id}
-          position={
-            new Vector3(
-              character.position[0],
-              -0,
-              character.position[2]
-            )
-          }
-        />
-      ))}
 
       {/* {!loading &&
                 <RigidBody colliders={false} type="fixed" position={[-42, -6, 37]}>
@@ -251,21 +268,46 @@ export const Index = () => {
 
       {!loading && (
         <>
-          {/* <RigidBody type="fixed" colliders={"trimesh"} ccd>
-            <Map3 position={[0, -10, 98]} />
-            <mesh
-              rotation={[-0.5 * Math.PI, 0, 0]}
-              position={[0, 0, 0]}
-              receiveShadow
-            >
-              <planeGeometry args={[0, 0, 1, 1]} />
-              <shadowMaterial transparent opacity={0.2} />
-            </mesh>
-          </RigidBody> */}
-          <RigidBody colliders={'trimesh'} type="fixed" position={[-42, -6, 37]}>
+          <RigidBody
+            colliders={"trimesh"}
+            type="fixed"
+            position={[-42, -6, 37]}
+          >
             <CylinderCollider args={[0.5, 1000]} />
-            <Cylinder scale={[1000, 1, 1000]} receiveShadow>
-            </Cylinder>
+            <Cylinder scale={[1000, 1, 1000]} receiveShadow></Cylinder>
+          </RigidBody>
+
+          {crosses
+            .map((cross, idx) => (
+              <Cross
+                scale={6}
+                key={idx}
+                position={
+                  new Vector3(cross.position.x, cross.position.y, cross.position.z)
+                }
+              />
+          ))}
+
+          {characters
+            .filter((ch) => ch.id !== socket.id)
+            .map((character) => (
+              <ExternalWarrior
+                key={character.id}
+                id={character.id}
+                position={
+                  new Vector3(character.position[0], -0, character.position[2])
+                }
+              />
+            ))}
+
+          <RigidBody
+            position={[0, -5, 10]}
+            colliders={"cuboid"}
+            type="fixed"
+            onCollisionEnter={onCrossBaseCollision}
+            onCollisionExit={onCrossBaseCollisionExit}
+          >
+            <Box args={[2, 0.5, 1.5]} />
           </RigidBody>
 
           <CharacterController
