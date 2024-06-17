@@ -94,4 +94,29 @@ export const rewards:Reward[] = [
         position: new Vector3(20, 20, 127),
         level: 3
     },
+    {
+        id: '19',
+        position: new Vector3(-2, -1, 20),
+        level: 4
+    },
+    {
+        id: '20',
+        position: new Vector3(-64, 0.5, 3),
+        level: 4
+    },
+    {
+        id: '21',
+        position: new Vector3(-88, 32, 120),
+        level: 4
+    },
+    {
+        id: '22',
+        position: new Vector3(-5, 35, 170),
+        level: 4
+    },
+    {
+        id: '23',
+        position: new Vector3(87, 1, 5),
+        level: 4
+    },
 ]
