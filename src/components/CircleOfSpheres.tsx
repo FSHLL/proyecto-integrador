@@ -1,7 +1,8 @@
 import { player } from "@/constants/colliders";
+import { useGame } from "@/stores/useGame";
 import { Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
+import { IntersectionEnterPayload, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Vector3 } from "three";
@@ -9,7 +10,7 @@ import { Vector3 } from "three";
 export const CircleOfSpheres = ({
   center,
   radius,
-  numSpheres,
+  numSpheres
 }: {
   center: Vector3;
   radius: number;
@@ -24,6 +25,8 @@ export const CircleOfSpheres = ({
 
     return [xVelocity, 0, zVelocity];
   };
+
+  const doDamage = useGame((state) => state.doDamage)
 
   // useEffect(() => {
   //   groupRef.current?.children.forEach((rigidBody, index) => {
@@ -51,7 +54,7 @@ export const CircleOfSpheres = ({
             // console.log(e.other.rigidBodyObject?.name);
             if (e.other.rigidBodyObject?.name === player) {
               //   onHit(id)
-              //   doDamage(5)
+              doDamage(15)
             }
           }}
           sensor
@@ -64,7 +67,7 @@ export const CircleOfSpheres = ({
           ]}
           args={[0.1]}
         >
-          <Sphere args={[0.5, 16, 16]}>
+          <Sphere args={[0.4, 16, 16]}>
             <meshStandardMaterial color="blue" />
           </Sphere>
         </RigidBody>
