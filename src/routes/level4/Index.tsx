@@ -21,7 +21,7 @@ import { animationSet, keyboardMap } from "../../constants/joystick";
 import { getModelPath } from "@/helpers/path";
 import { useEffect, useRef, useState } from "react";
 import { playAudio, stopAudio } from "@/helpers/audio";
-import { Map3 } from "@/models/Map3";
+import { Map4 } from "@/models/Map4";
 import { Warrior } from "@/models/Warrior";
 // import { getRandomArbitrary } from "@/helpers/random";
 import { Trunk } from "@/components/Trunk";
@@ -195,7 +195,7 @@ export const Index = () => {
         new Vector3(curCheckpoint.position.x, -0.7, curCheckpoint.position.z)
       );
     }
-    setCurLevel(3);
+    setCurLevel(4);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -205,7 +205,7 @@ export const Index = () => {
 
   useEffect(() => {
     if (storeRewards) {
-      const r = rewards.filter((reward) => reward.level === 3);
+      const r = rewards.filter((reward) => reward.level === 4);
       setAvailableRewards(
         r.filter(
           (reward) => !storeRewards.some((stored) => stored.id === reward.id)
@@ -349,26 +349,26 @@ export const Index = () => {
 
       <Checkpoint
         id={1}
-        level={3}
-        position={new Vector3(-70, -0.5, 7)}
+        level={4}
+        position={new Vector3(36, -2.4, 20)}
         onCollision={inCheckpoint}
       />
       <Checkpoint
         id={2}
-        level={3}
-        position={new Vector3(-45, 4.8, 40)}
+        level={4}
+        position={new Vector3(-84, 12, 70)}
         onCollision={inCheckpoint}
       />
       <Checkpoint
         id={3}
-        level={3}
-        position={new Vector3(30, 2.2, 75)}
+        level={4}
+        position={new Vector3(-40, 29, 195)}
         onCollision={inCheckpoint}
       />
       <Checkpoint
         id={4}
-        level={3}
-        position={new Vector3(65, 20, 127)}
+        level={4}
+        position={new Vector3(83, 37.4, 170)}
         onCollision={inCheckpoint}
       />
 
