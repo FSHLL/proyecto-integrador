@@ -27,7 +27,7 @@ export const Game = () => {
       <SocketManager />
       <Canvas shadows camera={{ fov: 30 }}>
         <Suspense>
-          <Physics debug>
+          <Physics>
             <Outlet />
           </Physics>
         </Suspense>

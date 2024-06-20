@@ -57,6 +57,7 @@ import { charactersAtom, crossesAtom, socket } from "@/components/SocketManager"
 import { useAtom } from "jotai";
 import { ExternalWarrior } from "@/models/ExternalWarrior";
 import { useFrame } from "@react-three/fiber";
+import { Buziraco } from "@/models/Buziraco";
 
 export const Index = () => {
   const [characters] = useAtom(charactersAtom);
@@ -247,7 +248,7 @@ export const Index = () => {
           maxVelLimit={velocity}
           camInitDis={-6}
           animated
-          autoBalance={true}
+          autoBalance={false}
         >
           <EcctrlAnimation
             characterURL={characterURL}
@@ -268,14 +269,60 @@ export const Index = () => {
 
       {!loading && (
         <>
-          <RigidBody
-            colliders={"trimesh"}
-            type="fixed"
-            position={[-42, -6, 37]}
-          >
-            <CylinderCollider args={[0.5, 1000]} />
-            <Cylinder scale={[1000, 1, 1000]} receiveShadow></Cylinder>
+          <RigidBody type="fixed" colliders={"trimesh"} ccd>
+            <Map4 position={[0, -10, 98]} />
+            <mesh
+              rotation={[-0.5 * Math.PI, 0, 0]}
+              position={[0, 0, 0]}
+              receiveShadow
+            >
+              <planeGeometry args={[0, 0, 1, 1]} />
+              <shadowMaterial transparent opacity={0.2} />
+            </mesh>
           </RigidBody>
+
+          {/*
+            <RigidBody
+              colliders={"trimesh"}
+              type="fixed"
+              position={[-42, -6, 37]}
+            >
+              <CylinderCollider args={[0.5, 1000]} />
+              <Cylinder scale={[1000, 1, 1000]} receiveShadow></Cylinder>
+            </RigidBody>
+          */}
+
+          <RigidBody
+            position={[16, 43, 157]}
+            colliders={"cuboid"}
+            type="fixed"
+            onCollisionEnter={onCrossBaseCollision}
+            onCollisionExit={onCrossBaseCollisionExit}
+          >
+            <Box args={[2, 0.5, 1.5]} />
+          </RigidBody>
+
+          <RigidBody
+            position={[29, 43, 157]}
+            colliders={"cuboid"}
+            type="fixed"
+            onCollisionEnter={onCrossBaseCollision}
+            onCollisionExit={onCrossBaseCollisionExit}
+          >
+            <Box args={[2, 0.5, 1.5]} />
+          </RigidBody>
+
+          <RigidBody
+            position={[39, 43.5, 157]}
+            colliders={"cuboid"}
+            type="fixed"
+            onCollisionEnter={onCrossBaseCollision}
+            onCollisionExit={onCrossBaseCollisionExit}
+          >
+            <Box args={[2, 0.5, 1.5]} />
+          </RigidBody>
+
+          <Buziraco position={[0, 35, 10]} />
 
           {crosses
             .map((cross, idx) => (
@@ -299,16 +346,6 @@ export const Index = () => {
                 }
               />
             ))}
-
-          <RigidBody
-            position={[0, -5, 10]}
-            colliders={"cuboid"}
-            type="fixed"
-            onCollisionEnter={onCrossBaseCollision}
-            onCollisionExit={onCrossBaseCollisionExit}
-          >
-            <Box args={[2, 0.5, 1.5]} />
-          </RigidBody>
 
           <CharacterController
             attack={onAttack}
